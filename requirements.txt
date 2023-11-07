@@ -52,7 +52,6 @@ scikit-learn
 scipy
 SecretStorage
 six
-sklearn
 spflow
 SQLAlchemy
 sqlparse
