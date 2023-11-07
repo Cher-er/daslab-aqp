@@ -1,4 +1,4 @@
-from VAE import *
+from vae.VAE import *
 import json
 
 # from argparse import ArgumentParser
