@@ -52,7 +52,7 @@ import os
 # ### Parsing and saving the input arguments
 # args = parser.parse_args()
 
-def train():
+def train_vae():
 
     with open(os.path.join(os.getcwd(), 'config', 'vae.json')) as f:
         args = json.load(f)

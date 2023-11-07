@@ -7,4 +7,4 @@ if __name__ == '__main__':
         args = json.load(f)
 
     if args['vae']['train']:
-        vae.train.train()
+        vae.train.train_vae()
