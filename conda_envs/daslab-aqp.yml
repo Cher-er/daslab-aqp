@@ -96,7 +96,6 @@ dependencies:
     - scipy==1.10.1
     - secretstorage==3.3.3
     - six==1.16.0
-    - sklearn==0.0.post11
     - spflow==0.0.41
     - sqlalchemy==2.0.23
     - sqlparse==0.4.4
