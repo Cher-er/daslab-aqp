@@ -1,8 +1,8 @@
 {
-  "model_name": "",
-  "input_file": "",
-  "output_dir": "",
-  "data_output_dir": "",
+  "model_name": "flights",
+  "input_file": "~/dataset/flights/csv/flights_with_header/flights_with_header.csv",
+  "output_dir": "~/dataset/flights/out/vae/out",
+  "data_output_dir": "~/dataset/flights/out/vae/data",
   "batch_size": 64,
   "latent_dim": 64,
   "neuron_list": 200,
