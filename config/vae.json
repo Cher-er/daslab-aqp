@@ -1,0 +1,15 @@
+{
+  "model_name": "",
+  "input_file": "",
+  "output_dir": "",
+  "data_output_dir": "",
+  "batch_size": 64,
+  "latent_dim": 64,
+  "neuron_list": 200,
+  "epochs": 10,
+  "log_interval": 25,
+  "rejection": 0,
+  "num_samples": 1000,
+  "seed": 42,
+  "gpus": 0
+}

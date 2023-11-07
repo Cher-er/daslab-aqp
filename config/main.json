@@ -1,0 +1,6 @@
+{
+  "vae": {
+    "train": true,
+    "gen": false
+  }
+}
