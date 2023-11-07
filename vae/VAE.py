@@ -336,7 +336,7 @@ def calculate_t(model, x_train, B):
         for step in range(nsteps):
             lb = step*B
             ub = lb+ min(B, N-lb)
-            data = Variable(xtr[lb:ub])
+            data = Variable(torch.tensor(xtr[lb:ub]))
             T_est = model.calculate_t(data)
             T_alls.append(T_est)
         T_ests = torch.cat(T_alls)
@@ -355,7 +355,7 @@ def train(model, optimizer, epoch, x_train, log_interval, B, org_input_dim, reje
     for step in range(nsteps):
         lb = step*B
         ub = lb+ min(B, N-lb)
-        data = Variable(xtr[lb:ub])        
+        data = Variable(torch.tensor(xtr[lb:ub]))
         optimizer.zero_grad()
         data, recon_batch, mu, logvar = model(data, epoch, rejection)
         loss = loss_function(recon_batch, data, mu, logvar,org_input_dim)
@@ -377,7 +377,7 @@ def test(model, x_test, log_interval, B, org_input_dim, rejection = 0):
         for step in range(nsteps):
             lb = step*B
             ub = lb+ min(B, N-lb)
-            data = Variable(xte[lb:ub])
+            data = Variable(torch.tensor(xte[lb:ub]))
             data, recon_batch, mu, logvar = model(data,epoch, rejection)
             test_loss += loss_function(recon_batch, data, mu, logvar,org_input_dim).item()
     test_loss /= N
