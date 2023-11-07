@@ -15,7 +15,7 @@ def gen_flights_schema(csv_path):
                            attributes=['year_date', 'unique_carrier', 'origin', 'origin_state_abr', 'dest',
                                        'dest_state_abr', 'dep_delay', 'taxi_out', 'taxi_in', 'arr_delay', 'air_time',
                                        'distance'],
-                           csv_file_location=csv_path.format('flights_origin.csv'),
+                           csv_file_location=csv_path.format('flights_origin'),
                            table_size=5000000, primary_key=['f_flightno'], sample_rate=1,
                            fd_list=[('origin', 'origin_state_abr'), ('dest', 'dest_state_abr')]
                            ))
