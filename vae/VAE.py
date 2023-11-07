@@ -327,7 +327,7 @@ def percentile(t: torch.tensor, q: float):
     return result
 
 def calculate_t(model, x_train, B):
-    xtr = x_train.astype(np.float64)
+    xtr = x_train.astype(np.double)
     N,D = xtr.shape
     nsteps = int(N/B) + (N%B !=0)
     with torch.no_grad():
@@ -345,7 +345,7 @@ def calculate_t(model, x_train, B):
 
 #Straightforward batched training process
 def train(model, optimizer, epoch, x_train, log_interval, B, org_input_dim, rejection):
-    xtr = x_train.astype(np.float64)
+    xtr = x_train.astype(np.double)
     model.train()
 
     N,D = xtr.shape
@@ -367,7 +367,7 @@ def train(model, optimizer, epoch, x_train, log_interval, B, org_input_dim, reje
 #applies the model to a validation set (even though it is called as test)
 # this should give a good indication about how the model works
 def test(model, x_test, log_interval, B, org_input_dim, rejection = 0):
-    xte = x_test.astype(np.float64)
+    xte = x_test.astype(np.double)
     model.eval()
     test_loss = 0
     N,D = xte.shape
