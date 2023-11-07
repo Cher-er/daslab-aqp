@@ -53,9 +53,8 @@ import os
 # args = parser.parse_args()
 
 def train():
-    print(os.getcwd())
 
-    with open('../config/vae.json') as f:
+    with open(os.path.join(os.getcwd(), 'config', 'vae.json')) as f:
         args = json.load(f)
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args['gpus']
