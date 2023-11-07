@@ -328,7 +328,7 @@ def percentile(t: torch.tensor, q: float):
 
 def calculate_t(model, x_train, B):
     xtr = x_train.astype(np.float64)
-    N,D = xtr.size()
+    N,D = xtr.shape
     nsteps = int(N/B) + (N%B !=0)
     with torch.no_grad():
         T_ests = 0
@@ -348,7 +348,7 @@ def train(model, optimizer, epoch, x_train, log_interval, B, org_input_dim, reje
     xtr = x_train.astype(np.float64)
     model.train()
 
-    N,D = xtr.size()
+    N,D = xtr.shape
     nsteps = int(N/B) + (N%B !=0)
    
     train_loss = 0
@@ -370,7 +370,7 @@ def test(model, x_test, log_interval, B, org_input_dim, rejection = 0):
     xte = x_test.astype(np.float64)
     model.eval()
     test_loss = 0
-    N,D = xte.size()
+    N,D = xte.shape
     nsteps = int(N/B) + (N%B !=0)
     epoch=1
     with torch.no_grad():
