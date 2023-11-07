@@ -24,7 +24,7 @@ matplotlib
 mock
 more-itertools
 mpmath
-networkx=2.6
+networkx==2.6
 numexpr
 numpy
 pandas
