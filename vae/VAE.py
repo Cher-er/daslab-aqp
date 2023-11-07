@@ -8,11 +8,10 @@ from torch.autograd import Variable
 
 import pandas as pd
 import numpy as np
-
 import os
 import pickle
-
 from tqdm import tqdm
+
 
 class ExpInfo(object):
     def __init__(self, args, min_map, max_map, cat_cols, num_cols, encoding_type, col_infos):
@@ -23,7 +22,7 @@ class ExpInfo(object):
 
     #For each (numeric) column store the min max so that it could be normalized
     # such standardization to 0-1 makes it much easier for DL to learn the data
-        self.min_map=min_map
+        self.min_map = min_map
         self.max_map = max_map
 
     #position indexes of categorical and numerical columns
