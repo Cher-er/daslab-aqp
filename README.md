@@ -18,7 +18,7 @@
    ```json
    {
      "model_name": "flights",
-     "input_file": "your_dataset_path/flights.csv",
+     "input_file": "your_dataset_path/dataset.csv",
      "output_dir": "your_out_path",
      "data_output_dir": "your_data_out_path",
      "batch_size": 64,
@@ -35,7 +35,19 @@
 
    > 若主机只有一块GPU，则设置为 `"gpus": "0"`；
    >
-   > 该案例有两块GPU，且优先使用第二块GPU，因此设置为 `"gpus": "[1,0]"`
+   > 该案例有两块GPU，且优先使用第二块GPU（第一块GPU显存不足），因此设置为 `"gpus": "[1,0]"`
+
+   注意：数据集csv文件需要带表头，且属性名需加后缀 `_n` 或 `_c`，表示数值列（numerical columns）或分类列（categorical columns）。
+
+   以下为一个合法数据集的前五行示例：
+
+   ```csv
+   year_data_c,unique_carrier_c,origin_c,origin_state_abr_c,dest_c,dest_state_abr_c,dep_delay_n,taxi_out_n,taxi_in_n,arr_delay_n,air_time_n,distance_n
+   2001,AA,DFW,TX,MCI,MO,86.0,13.0,3.0,84.0,80.0,460.0
+   2011,B6,JFK,NY,BTV,VT,-9.0,20.0,4.0,-16.0,44.0,267.0
+   2013,US,PIT,PA,PHX,AZ,-11.0,13.0,5.0,-54.0,232.0,1814.0
+   2012,DL,TPA,FL,ATL,GA,3.0,15.0,13.0,6.0,70.0,406.0
+   ```
 
 3. 运行 `do.py` 脚本
 
@@ -43,7 +55,20 @@
    python do.py
    ```
 
-4. 
+   执行成功后，在 your_out_path 目录下会生成 model.pt 文件，即 VAE 模型的参数
+
+4. 修改 config/main.json
+
+   ```json
+   {
+     "vae": {
+       "train": false,
+       "gen": true
+     }
+   }
+   ```
+
+   > 表示执行 VAE 的生成过程
 
 
 
