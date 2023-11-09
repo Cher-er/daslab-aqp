@@ -70,6 +70,14 @@
 
    > 表示执行 VAE 的生成过程
 
+5. 运行 do.py 脚本
+
+   ```sh
+   python do.py
+   ```
+
+   执行成功后，在 your_out_path 目录下会生成 samples_1000.csv 文件，后缀表示样本数量，由 config/vae.json 中的参数 num_samples 控制。
+
 
 
 ## 输出文件
@@ -79,6 +87,7 @@
 - output_dir/time_taken.pkl: 保存模型训练所用时间（每10个epoch及最后一个epoch保存一次）
 - output_dir/loss.png: 保存损失值变化的折线图（每10个epoch及最后一个epoch保存一次）
 - output_dir/model.pt: 保存模型训练过程中的损失值最低的模型参数
+- output_dir/samples_xxx.csv: 保存模型生成的样本数据
 - data_output_dir/data.pkl: 读取数据后，存储训练集、测试集
 - data_output_dir/exp_info: 存储数据集的某些统计信息
 

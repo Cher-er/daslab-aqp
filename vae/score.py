@@ -1,46 +1,6 @@
 from vae.VAE import *
 import json
 
-# from argparse import ArgumentParser
-# parser = ArgumentParser(description='VAE')
-# parser.add_argument('--model_name', type=str, action='store', required=True,
-#                     help='Model name to be stored')
-# parser.add_argument('--input_file', type=str, action='store', required=True,
-#                     help='Path to the input .csv file. ')
-#
-# parser.add_argument('--output_dir', type=str, action='store', required=True,
-#                     help='Path to the output directory')
-#
-# parser.add_argument('--data_output_dir', type=str, action='store', required=True,
-#                     help='Path to the data output directory')
-#
-# parser.add_argument('--batch_size', type=int, action='store', default=64,
-#                     help='Batch size for training. ' +
-#                          'Default: 64.')
-#
-# parser.add_argument('--latent_dim', type=int, action='store', default=64,
-#                     help='Latent Dimension size ' +
-#                          'Default: 64.')
-#
-# parser.add_argument('--neuron_list', type=int, action='store', default=200,
-#                     help='Latent Dimension size ' +
-#                          'Default: 200.')
-#
-# parser.add_argument('--log_interval', type=int, action='store',
-#                     default=25)
-#
-# parser.add_argument('--num_samples', type=int, action='store',
-#                     default=1000)
-#
-# parser.add_argument('--seed', type=int, action='store',
-#                     default=42)
-#
-# parser.add_argument('--gpus', type=int, action='store',
-#                     default=0)
-#
-# ### Parsing and saving the input arguments
-# args = parser.parse_args()
-
 
 def gen_sample():
     with open(os.path.join(os.getcwd(), 'config', 'vae.json')) as f:
