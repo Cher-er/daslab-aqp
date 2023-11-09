@@ -80,6 +80,24 @@
 
 
 
+## 参数设置
+
+- model_name：随便写
+- input_file：数据集路径
+- output_dir：输出文件路径
+- data_output_dir：输出文件路径
+- batch_size：神经网络训练过程中的批处理大小
+- latent_dim：控制神经网络结构
+- neuron_list：控制神经网络结构
+- epochs：神经网络训练次数
+- log_interval：本意应该是控制模型训练时的日志输出间隔，但目前代码没用到
+- rejection
+- num_samples：生成数据的样本数量
+- seed：随机种子（设置numpy和torch模块的随机种子）
+- gpus：配置GPU
+
+
+
 ## 输出文件
 - output_dir/model_state: 保存模型训练过程中的中间状态（每10个epoch及最后一个epoch保存一次）
 - output_dir/loss.pkl: 保存模型训练过程中的所有损失值（每10个epoch及最后一个epoch保存一次）
@@ -93,8 +111,9 @@
 
 
 
+## 问题
 
-
-# 问题
 1. vae/train.py中，是否需要sample(1000000)?
 2. vae/train.py中，没有使用测试集。
+3. config/vae.json中，参数model_name的作用未知。
+4. config/vae.json中，参数rejection的作用未知。

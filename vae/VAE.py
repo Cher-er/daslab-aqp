@@ -281,7 +281,7 @@ class VAE(nn.Module):
         return torch.sigmoid(self.fc4(h4))
 
     #applies a forward pass: pass through encoder, then decode it 
-    def forward(self, x, epoch, rejection = 0):
+    def forward(self, x, epoch, rejection=0):
         mu, logvar = self.encode(x.view(-1, self.org_dim))
         if not rejection:
             z = self.reparameterize(mu, logvar)
