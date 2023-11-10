@@ -1,3 +1,8 @@
 {
-  "input_file": "/home/yc/dataset/flights/csv/flights_with_header/flights_with_header.csv"
+  "model_name": "flights",
+  "input_file": "/home/yc/dataset/flights/csv/flights_with_header/flights_with_header.csv",
+  "output_dir": "/home/yc/dataset/flights/out/cvae/out/",
+  "csv_separator": ",",
+  "mask_r": 0.5,
+  "random_seed": 42
 }

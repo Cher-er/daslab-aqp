@@ -1,9 +1,9 @@
 {
   "vae": {
     "train": false,
-    "gen": true
+    "gen": false
   },
   "cvae": {
-    "train": false
+    "train": true
   }
 }
