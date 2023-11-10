@@ -4,7 +4,7 @@ import torch
 from torch.distributions import kl_divergence
 from torch.nn import Module
 
-from prob_utils import normal_parse_params
+from cvae.prob_utils import normal_parse_params
 
 
 class VAEAC(Module):

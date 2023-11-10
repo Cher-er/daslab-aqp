@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from torchvision.datasets.folder import default_loader
 from torchvision.transforms import CenterCrop, Compose, Normalize, ToTensor
 
-from mask_generators import ImageMaskGenerator
+from cvae.mask_generators import ImageMaskGenerator
 
 
 def compute_normalization(data, one_hot_max_sizes):
