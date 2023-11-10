@@ -109,6 +109,8 @@
 - data_output_dir/data.pkl: 读取数据后，存储训练集、测试集
 - data_output_dir/exp_info: 存储数据集的某些统计信息
 
+> 如果数据集发生变化，需要重新训练模型，必须删除 model_state 文件（建议删除所有输出文件）
+
 
 
 ## 问题

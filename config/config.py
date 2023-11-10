@@ -13,12 +13,23 @@ class Singleton:
         return self._instance[self._cls]
 
 
-@Singleton
-class VAEConfig:
-    def __init__(self):
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "vae.json")) as f:
+class Config:
+    def __init__(self, cfg_file):
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_file)) as f:
             config = json.load(f)
         self.config = config
 
     def get_config(self):
         return self.config
+
+
+@Singleton
+class VAEConfig(Config):
+    def __init__(self):
+        super(VAEConfig, self).__init__("vae.json")
+
+
+@Singleton
+class CVAEConfig(Config):
+    def __init__(self):
+        super(CVAEConfig, self).__init__("cvae.json")
