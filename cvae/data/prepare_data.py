@@ -35,8 +35,8 @@ def loader():
     unique_values = []
     target_id = []
     for i, cat_col in enumerate(cat_cols):
-        unique_values[i] = data[cat_col].unique()
-        target_id[i] = {x: i for i, x in enumerate(unique_values[i])}
+        unique_values.append(data[cat_col].unique())
+        target_id.append({x: i for i, x in enumerate(unique_values[i])})
         print(cat_col, "=", target_id[i])
         data[cat_col] = data[cat_col].map(target_id[i])
     return data, cat_cols, num_cols
