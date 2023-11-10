@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class Singleton:
@@ -15,7 +16,7 @@ class Singleton:
 @Singleton
 class VAEConfig:
     def __init__(self):
-        with open('vae.json') as f:
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "vae.json")) as f:
             config = json.load(f)
         self.config = config
 
