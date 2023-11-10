@@ -2,14 +2,13 @@ import matplotlib.pyplot as plt
 from vae.VAE import *
 import time
 from torch import optim
-import json
 import os
+from config.config import VAEConfig
 
 
 def train_vae():
 
-    with open(os.path.join(os.getcwd(), 'config', 'vae.json')) as f:
-        args = json.load(f)
+    args = VAEConfig().get_config()
 
     os.environ["CUDA_VISIBLE_DEVICES"] = args['gpus']
 

@@ -1,10 +1,9 @@
 from vae.VAE import *
-import json
+from config.config import VAEConfig
 
 
 def gen_sample():
-    with open(os.path.join(os.getcwd(), 'config', 'vae.json')) as f:
-        args = json.load(f)
+    args = VAEConfig().get_config()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args['gpus'])
     ### Create output dir
