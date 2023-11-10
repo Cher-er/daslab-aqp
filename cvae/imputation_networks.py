@@ -20,7 +20,7 @@ def get_imputation_networks(one_hot_max_sizes):
 
     width = 256
     depth = 6
-    latent_dim = 32
+    latent_dim = 64
 
     # Proposal network
     proposal_layers = [
@@ -74,6 +74,7 @@ def get_imputation_networks(one_hot_max_sizes):
         nn.Linear(64, 256),    #need to change when change latent_dim
         nn.LeakyReLU(),
     ]
+
     for i in range(depth + 1):
         generative_layers.append(
             SkipConnection(

@@ -95,9 +95,6 @@ def train():
 
         # compute imputation distributions parameters
         with torch.no_grad():
-            print("batch_extended: ", batch_extended)
-            print("mask_extended: ", mask_extended)
-            print("num_imputations: ", num_imputations)
             samples_params = model.generate_samples_params(batch_extended,
                                                            mask_extended,
                                                            num_imputations)
