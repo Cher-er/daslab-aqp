@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from datasets import compute_normalization
+from cvae.datasets import compute_normalization
 from imputation_networks import get_imputation_networks
 from train_utils import extend_batch, get_validation_iwae
 from VAEAC import VAEAC
