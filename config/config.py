@@ -13,9 +13,10 @@ class Singleton:
         return self._instance[self._cls]
 
 
-class Config:
-    def __init__(self, cfg_file):
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), cfg_file)) as f:
+@Singleton
+class VAEConfig:
+    def __init__(self):
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "vae.json")) as f:
             config = json.load(f)
         self.config = config
 
@@ -24,12 +25,11 @@ class Config:
 
 
 @Singleton
-class VAEConfig(Config):
+class CVAEConfig:
     def __init__(self):
-        super(VAEConfig, self).__init__("vae.json")
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "cvae.json")) as f:
+            config = json.load(f)
+        self.config = config
 
-
-@Singleton
-class CVAEConfig(Config):
-    def __init__(self):
-        super(CVAEConfig, self).__init__("cvae.json")
+    def get_config(self):
+        return self.config
