@@ -110,7 +110,7 @@ def train():
         for i in range(num_imputations):
             sample_params = samples_params[:, i]
             sample = networks['sampler'](sample_params)
-            sample[(~ mask).byte()] = 0  # [1 - mask] change to [~ mask]
+            sample[(~ mask).byte() == 1] = 0  # [1 - mask] change to [~ mask]
             sample += batch_zeroed_nans
             results[i].append(torch.tensor(sample, device='cpu'))
 
