@@ -53,6 +53,7 @@ class VAEAC(Module):
         observed = torch.tensor(batch)
         print(mask)
         print(mask.byte())
+        print(mask.shape)
         observed[mask.byte()] = 0
         return observed
 
