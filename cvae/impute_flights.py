@@ -50,8 +50,9 @@ def train():
     mask_generator = networks['mask_generator']
     vlb_scale_factor = networks.get('vlb_scale_factor', 1)
 
-    state_dict = torch.load('trained.pth')
-    model.load_state_dict(state_dict)
+    if os.path.exists(os.path.join(output_dir, "trained.pth")):
+        state_dict = torch.load(os.path.join(output_dir, "trained.pth"))
+        model.load_state_dict(state_dict)
 
     raw_data = np.loadtxt(input_file, delimiter='\t')  # train的数据被随机mask掉了一些
     raw_data = torch.from_numpy(raw_data).float()
