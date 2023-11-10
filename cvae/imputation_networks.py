@@ -5,6 +5,7 @@ from cvae.mask_generators import MCARGenerator
 from cvae.nn_utils import ResBlock, MemoryLayer, SkipConnection
 from cvae.prob_utils import CategoricalToOneHotLayer, GaussianCategoricalLoss, \
                        GaussianCategoricalSampler, SetGaussianSigmasToOne
+from config.config import CVAEConfig
 
 
 def get_imputation_networks(one_hot_max_sizes):
@@ -94,7 +95,7 @@ def get_imputation_networks(one_hot_max_sizes):
     generative_network = nn.Sequential(*generative_layers)
 
     return {
-        'batch_size': 64,
+        'batch_size': CVAEConfig().get_config()["batch_size"],
 
         'reconstruction_log_prob': GaussianCategoricalLoss(one_hot_max_sizes),
 

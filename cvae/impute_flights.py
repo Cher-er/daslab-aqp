@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 from cvae.datasets import compute_normalization
 from cvae.imputation_networks import get_imputation_networks
-from cvae.train_utils import extend_batch, get_validation_iwae
+from cvae.train_utils import extend_batch
 from cvae.VAEAC import VAEAC
 
 from config.config import CVAEConfig
@@ -15,21 +15,21 @@ import os
 def train():
     model_name = CVAEConfig().get_config()["model_name"]
     output_dir = CVAEConfig().get_config()["output_dir"]
+    verbose = CVAEConfig().get_config()["verbose"]
+    num_imputations = CVAEConfig().get_config()["num_imputations"]
 
     input_file = os.path.join(output_dir, 'train_test_split', '{}_mask.tsv'.format(model_name))
     # input_file = "./data/train_test_split/Flights_stratified_train.tsv"
-    output_file = os.path.join(output_dir, 'imputations', '{}_imputed.tsv'.format(model_name))
+    output_dir = os.path.join(output_dir, 'imputations')
+    os.makedirs(output_dir, exist_ok=True)
 
-    mask_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "mask_by_queries", "flights_test.tsv")
+    mask_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "mask_by_queries", "{}_test.tsv".format(model_name))
 
     # one_hot_max_sizes = [4, 12, 31, 7, 17, 372, 53, 373, 53, 1751, 194, 229, 1768, 673, 1603]
     one_hot_max_sizes = [21, 25, 371, 52, 371, 52, 1, 1, 1, 1, 1, 1]
-    num_imputations = 10
-    epochs = 5
-    validation_ratio = 0.15
-    batch_size = 64
+
     num_workers = 0
-    verbose = True
+
     use_cuda = torch.cuda.is_available()
 
     # design all necessary networks and learning parameters for the dataset
@@ -45,10 +45,7 @@ def train():
     )
     if use_cuda:
         model = model.cuda()
-    optimizer = networks['optimizer'](model.parameters())
     batch_size = networks['batch_size']  # 64
-    mask_generator = networks['mask_generator']
-    vlb_scale_factor = networks.get('vlb_scale_factor', 1)
 
     if os.path.exists(os.path.join(output_dir, "trained.pth")):
         state_dict = torch.load(os.path.join(output_dir, "trained.pth"))
@@ -60,6 +57,7 @@ def train():
     # 在这里修改为我们想要mask的东西
     test_data = np.loadtxt(mask_file, delimiter='\t')  # train的数据被随机mask掉了一些
     test_data = torch.from_numpy(test_data).float()
+
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
     data = (test_data - norm_mean[None]) / norm_std[None]
@@ -124,4 +122,4 @@ def train():
     # reshape result, undo normalization and save it
     result = result.view(result.shape[0] * result.shape[1], result.shape[2])
     result = result * norm_std[None] + norm_mean[None]
-    np.savetxt(output_file, result.numpy(), delimiter='\t')
+    np.savetxt(os.path.join(output_dir, '{}_imputed.tsv'.format(model_name)), result.numpy(), delimiter='\t')

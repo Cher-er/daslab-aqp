@@ -4,5 +4,8 @@
   "output_dir": "/home/yc/dataset/flights/out/cvae/out/",
   "csv_separator": ",",
   "mask_r": 0.5,
-  "random_seed": 42
+  "random_seed": 42,
+  "verbose": true,
+  "num_imputations": 10,
+  "batch_size": 64
 }
