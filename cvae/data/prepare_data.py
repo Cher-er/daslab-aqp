@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from random import sample
 from config.config import CVAEConfig
+import torch
 
 
 def stratified_masking(data, r, cat_cols, num_cols):
@@ -17,10 +18,11 @@ def stratified_masking(data, r, cat_cols, num_cols):
             values = data[col].values
             unique_values, counts = np.unique(values, return_counts=True)
             weights = {value: count/len(values) for value, count in zip(unique_values, counts)}
-            weights_data = np.array([weights[value] for value in values])
-            print(weights_data)
+            weights = torch.tensor([weights[value] for value in values])
             # batch_indices = sample(range(b), int(r * b), weights=weights_data)
-            batch_indices = sample(range(b), int(r * b))
+            # batch_indices = sample(range(b), int(r * b))
+            batch_indices = torch.multinomial(weights, int(r * b))
+            print(batch_indices)
             m[batch_indices, i] = 1
     return m
 
