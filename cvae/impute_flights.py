@@ -12,7 +12,7 @@ from config.config import CVAEConfig
 import os
 
 
-if __name__ == '__main__':
+def train():
     model_name = CVAEConfig().get_config()["model_name"]
     output_dir = CVAEConfig().get_config()["output_dir"]
 
