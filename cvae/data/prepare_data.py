@@ -35,7 +35,6 @@ def loader():
     num_cols = list(filter(lambda x: '_n' in x, cols))
     unique_values = []
     one_hot_map = {}
-    one_hot_max_sizes = []
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
         # print(unique_values[i])
@@ -47,8 +46,7 @@ def loader():
                 one_hot_map[cat_col][x] = j
         # one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
-        one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
-    return data, list(cols), cat_cols, num_cols, one_hot_map, one_hot_max_sizes
+    return data, list(cols), cat_cols, num_cols, one_hot_map
 
 
 def save_data(filename, data):
@@ -58,7 +56,7 @@ def save_data(filename, data):
 def prepare_data():
     config = CVAEConfig().get_config()
     print("Reading data...")
-    data, cols, cat_cols, num_cols, one_hot_map, one_hot_max_sizes = loader()
+    data, cols, cat_cols, num_cols, one_hot_map = loader()
     random_seed = config["random_seed"]
     np.random.seed(random_seed)
     model_name = config["model_name"]
@@ -72,6 +70,13 @@ def prepare_data():
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
     print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split')))
+
+    one_hot_max_sizes = []
+    for col in cols:
+        if col in num_cols:
+            one_hot_max_sizes.append(1)
+        else:
+            one_hot_max_sizes.append(len(one_hot_map[col]) - 1)
 
     dataset_info = {
         "columns": cols,
