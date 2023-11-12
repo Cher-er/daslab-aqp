@@ -9,19 +9,20 @@ import torch
 
 def stratified_masking(data, r, cat_cols, num_cols):
     b, k = data.shape
-    m = np.zeros((b, k))
+    mask = np.zeros((b, k))
     for i, col in enumerate(data.columns):
         if col in num_cols:
-            m[:, i] = 1
+            mask[:, i] = 1
         elif col in cat_cols:
             values = data[col].values
             unique_values, counts = np.unique(values, return_counts=True)
             weights = {value: count/len(values) for value, count in zip(unique_values, counts)}
             weights = torch.tensor([weights[value] for value in values])
             batch_indices = torch.multinomial(weights, int(r * b))
-            print(batch_indices)
-            m[batch_indices, i] = 1
-    return m
+            # print(batch_indices)
+            mask[batch_indices, i] = 1
+    data[mask.astype('bool')] = np.nan
+    return data
 
 
 def loader():
@@ -36,7 +37,7 @@ def loader():
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
         target_id.append({x: i for i, x in enumerate(unique_values[i])})
-        print(cat_col, "=", target_id[i])
+        # print(cat_col, "=", target_id[i])
         data[cat_col] = data[cat_col].map(target_id[i])
     return data, cat_cols, num_cols
 
@@ -53,8 +54,8 @@ def prepare_data():
     r = CVAEConfig().get_config()["mask_r"]
     output_dir = CVAEConfig().get_config()["output_dir"]
 
-    train_data = stratified_masking(data, r, cat_cols, num_cols)
+    data_masked = stratified_masking(data, r, cat_cols, num_cols)
 
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
-    save_data(join(output_dir, 'train_test_split', '{}_mask.tsv'.format(model_name)), train_data)
+    save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
