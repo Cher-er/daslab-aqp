@@ -12,8 +12,6 @@ def stratified_masking(data, r, cat_cols, num_cols):
     b, k = data.shape
     mask = np.zeros((b, k))
     for i, col in enumerate(data.columns):
-        print(col)
-        print(data[col].values)
         if col in num_cols:
             mask[:, i] = 1
         elif col in cat_cols:
@@ -41,7 +39,13 @@ def loader():
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
         # print(unique_values[i])
-        one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
+        one_hot_map[cat_col] = {}
+        for j, x in enumerate(unique_values[i]):
+            if type(x) == np.int64:
+                one_hot_map[cat_col][int(x)] = j
+            else:
+                one_hot_map[cat_col][x] = j
+        # one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
         one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
     return data, list(cols), cat_cols, num_cols, one_hot_map, one_hot_max_sizes
