@@ -103,7 +103,8 @@ def train():
 
     # Default parameters which are not supposed to be changed from user interface
     use_cuda = torch.cuda.is_available()
-    verbose = True
+    # verbose = True
+    verbose = config["verbose"]
     # Non-zero number of workers cause nasty warnings because of some bug in
     # multiprocess library. It might be fixed now, but anyway there is no need
     # to have a lot of workers for dataloader over in-memory tabular data.
