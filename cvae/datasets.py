@@ -23,7 +23,7 @@ def compute_normalization(data, one_hot_max_sizes):
             continue
         v = data[:, i]
         v = v[~ torch.isnan(v)]    # [1 - torch.isnan(v)] change to [~ torch.isnan(v)]
-        vmin, vmax = v.min(), v.max()
+        # vmin, vmax = v.min(), v.max()
         vmean = v.mean()
         vstd = v.std()
         norm_vector_mean[i] = vmean
