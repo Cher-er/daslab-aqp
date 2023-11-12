@@ -86,7 +86,7 @@ import json
 # args = parser.parse_args()
 
 
-if __name__ == '__main__':
+def train():
     config = CVAEConfig().get_config()
 
     with open(join(config["output_dir"], "info", "{}_info.json".format(config["model_name"]))) as f:
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     # Read and normalize input data
-    raw_data = np.loadtxt(config["input_file"], delimiter='\t')
+    raw_data = np.loadtxt(config["masked_file"], delimiter='\t')
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
