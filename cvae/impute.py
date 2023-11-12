@@ -105,6 +105,7 @@ def train():
     use_cuda = torch.cuda.is_available()
     # verbose = True
     verbose = config["verbose"]
+    iter_bar = config["iter_bar"]
     # Non-zero number of workers cause nasty warnings because of some bug in
     # multiprocess library. It might be fixed now, but anyway there is no need
     # to have a lot of workers for dataloader over in-memory tabular data.
@@ -162,6 +163,7 @@ def train():
         avg_vlb = 0
         if verbose:
             print('Epoch %d...' % (epoch + 1), file=stderr, flush=True)
+        if iter_bar:
             iterator = tqdm(iterator)
 
         # one epoch
@@ -232,7 +234,7 @@ def train():
         results.append([])
 
     iterator = dataloader
-    if verbose:
+    if iter_bar:
         iterator = tqdm(iterator)
 
     # impute missing values for all input data
