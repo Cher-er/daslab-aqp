@@ -95,15 +95,14 @@ def train():
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     # Read and normalize input data
-    raw_data = np.loadtxt(config["masked_file"], delimiter='\t')
+    raw_data = np.loadtxt(join(config["outout_dir"], "train_test_split", "{}_masked.tsv".format(config["model_name"])), delimiter='\t')
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
     data = (raw_data - norm_mean[None]) / norm_std[None]
 
     # Default parameters which are not supposed to be changed from user interface
-    # use_cuda = torch.cuda.is_available()
-    use_cuda = False
+    use_cuda = torch.cuda.is_available()
     verbose = True
     # Non-zero number of workers cause nasty warnings because of some bug in
     # multiprocess library. It might be fixed now, but anyway there is no need
