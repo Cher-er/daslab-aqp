@@ -64,12 +64,13 @@ def prepare_data():
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
-    print("Masked data has been saved in {}.".format(output_dir))
+    print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split')))
 
     dataset_info = {
         "columns": cols,
         "one_hot_map": one_hot_map,
         "one_hot_max_sizes": one_hot_max_sizes
     }
+    makedirs(join(output_dir, "info"), exist_ok=True)
     with open(join(output_dir, "info", "{}_info.json".format(model_name))) as f:
         json.dump(dataset_info, f)
