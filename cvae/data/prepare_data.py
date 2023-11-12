@@ -33,11 +33,11 @@ def loader():
     cat_cols = list(filter(lambda x: '_c' in x, cols))
     num_cols = list(filter(lambda x: '_n' in x, cols))
     unique_values = []
-    target_id = []
+    target_id = {}
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
-        target_id.append({x: i for i, x in enumerate(unique_values[i])})
-        data[cat_col] = data[cat_col].map(target_id[i])
+        target_id[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
+        data[cat_col] = data[cat_col].map(target_id[cat_col])
     print(target_id)
     return data, cols, cat_cols, num_cols
 
