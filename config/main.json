@@ -4,7 +4,7 @@
     "gen": false
   },
   "cvae": {
-    "pre_data": true,
-    "train": false
+    "pre_data": false,
+    "train": true
   }
 }
