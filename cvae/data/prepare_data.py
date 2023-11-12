@@ -38,7 +38,8 @@ def loader():
     one_hot_max_sizes = []
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
-        print(type(unique_values[i][0]))
+        if type(unique_values[i][0]) == np.int64:
+            one_hot_map[cat_col] = {int(x): i for i, x in enumerate(unique_values[i])}
         one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
         one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
