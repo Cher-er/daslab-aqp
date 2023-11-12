@@ -76,7 +76,7 @@ def prepare_data():
         if col in num_cols:
             one_hot_max_sizes.append(1)
         else:
-            one_hot_max_sizes.append(len(one_hot_map[col]) - 1)
+            one_hot_max_sizes.append(len(one_hot_map[col]))
 
     dataset_info = {
         "columns": cols,
