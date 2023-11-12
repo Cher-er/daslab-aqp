@@ -179,7 +179,7 @@ def train():
                 val_iwae = get_validation_iwae(val_dataloader, mask_generator,
                                                batch_size, model,
                                                config["validation_iwae_num_samples"],
-                                               verbose)
+                                               iter_bar)
                 validation_iwae.append(val_iwae)
                 train_vlb.append(avg_vlb)
 
