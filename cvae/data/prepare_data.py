@@ -18,6 +18,7 @@ def stratified_masking(data, r, cat_cols, num_cols):
             values = data[col].values
             unique_values, counts = np.unique(values, return_counts=True)
             weights = {value: count/len(values) for value, count in zip(unique_values, counts)}
+            print(values)
             weights = torch.tensor([weights[value] for value in values])
             batch_indices = torch.multinomial(weights, int(r * b))
             mask[batch_indices, i] = 1
@@ -37,8 +38,8 @@ def loader():
     one_hot_map = {}
     one_hot_max_sizes = []
     for i, cat_col in enumerate(cat_cols):
-        unique_values.append(data[cat_col].copy().unique().astype(str))
-        print(unique_values[i])
+        unique_values.append(data[cat_col].unique().astype(str))
+        # print(unique_values[i])
         one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
         one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
