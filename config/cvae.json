@@ -7,5 +7,10 @@
   "random_seed": 42,
   "verbose": true,
   "num_imputations": 10,
-  "batch_size": 64
+  "batch_size": 64,
+  "epochs": 10,
+  "validation_ratio": 0.15,
+  "validation_iwae_num_samples": 25,
+  "validations_per_epoch": 1,
+  "use_last_checkpoint": false
 }

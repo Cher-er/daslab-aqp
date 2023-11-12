@@ -38,7 +38,8 @@ def loader():
         unique_values.append(data[cat_col].unique())
         target_id.append({x: i for i, x in enumerate(unique_values[i])})
         data[cat_col] = data[cat_col].map(target_id[i])
-    return data, cat_cols, num_cols
+    print(target_id)
+    return data, cols, cat_cols, num_cols
 
 
 def save_data(filename, data):
@@ -46,15 +47,20 @@ def save_data(filename, data):
 
 
 def prepare_data():
-    data, cat_cols, num_cols = loader()
-    random_seed = CVAEConfig().get_config()["random_seed"]
+    dataset_info = {}
+    config = CVAEConfig().get_config()
+    print("Reading data...")
+    data, cols, cat_cols, num_cols = loader()
+    random_seed = config["random_seed"]
     np.random.seed(random_seed)
-    model_name = CVAEConfig().get_config()["model_name"]
-    r = CVAEConfig().get_config()["mask_r"]
-    output_dir = CVAEConfig().get_config()["output_dir"]
+    model_name = config["model_name"]
+    r = config["mask_r"]
+    output_dir = config["output_dir"]
 
+    print("Masking data...")
     data_masked = stratified_masking(data, r, cat_cols, num_cols)
 
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
+    print("Masked data has been saved in {}.".format(output_dir))
