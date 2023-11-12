@@ -50,7 +50,7 @@ class VAEAC(Module):
         """
         Copy batch of objects and zero unobserved features.
         """
-        observed = torch.tensor(batch)
+        observed = batch.clone().detach()
         observed[mask.byte() == 1] = 0
         return observed
 
