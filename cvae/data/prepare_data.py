@@ -41,7 +41,7 @@ def loader():
         one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
         one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
-    return data, cols, cat_cols, num_cols, one_hot_map, one_hot_max_sizes
+    return data, list(cols), cat_cols, num_cols, one_hot_map, one_hot_max_sizes
 
 
 def save_data(filename, data):
