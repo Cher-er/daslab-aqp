@@ -39,7 +39,7 @@ def loader():
     one_hot_map = {}
     one_hot_max_sizes = []
     for i, cat_col in enumerate(cat_cols):
-        unique_values.append(data[cat_col].unique().astype(str))
+        unique_values.append(data[cat_col].unique())
         # print(unique_values[i])
         one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
         data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
