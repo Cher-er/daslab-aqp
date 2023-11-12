@@ -72,5 +72,5 @@ def prepare_data():
         "one_hot_max_sizes": one_hot_max_sizes
     }
     makedirs(join(output_dir, "info"), exist_ok=True)
-    with open(join(output_dir, "info", "{}_info.json".format(model_name))) as f:
+    with open(join(output_dir, "info", "{}_info.json".format(model_name)), 'w') as f:
         json.dump(dataset_info, f)
