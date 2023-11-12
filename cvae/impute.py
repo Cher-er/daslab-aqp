@@ -215,7 +215,7 @@ def train():
 
             # update running variational lower bound average
             avg_vlb += (float(vlb) - avg_vlb) / (i + 1)
-            if verbose:
+            if iter_bar:
                 iterator.set_description('Train VLB: %g' % avg_vlb)
 
     # if use doesn't set use_last_checkpoint flag,
