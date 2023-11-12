@@ -12,13 +12,14 @@ def stratified_masking(data, r, cat_cols, num_cols):
     b, k = data.shape
     mask = np.zeros((b, k))
     for i, col in enumerate(data.columns):
+        print(col)
+        print(data[col].values)
         if col in num_cols:
             mask[:, i] = 1
         elif col in cat_cols:
             values = data[col].values
             unique_values, counts = np.unique(values, return_counts=True)
             weights = {value: count/len(values) for value, count in zip(unique_values, counts)}
-            print(values)
             weights = torch.tensor([weights[value] for value in values])
             batch_indices = torch.multinomial(weights, int(r * b))
             mask[batch_indices, i] = 1
