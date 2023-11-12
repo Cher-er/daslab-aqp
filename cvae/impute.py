@@ -15,6 +15,7 @@ from cvae.imputation_networks import get_imputation_networks
 from cvae.train_utils import extend_batch, get_validation_iwae
 from cvae.VAEAC import VAEAC
 from config.config import CVAEConfig
+import json
 
 
 # class ArgParseRange:
@@ -88,7 +89,10 @@ from config.config import CVAEConfig
 if __name__ == '__main__':
     config = CVAEConfig().get_config()
 
-    one_hot_max_sizes = args.one_hot_max_sizes
+    with open(join(config["output_dir"], "info", "{}_info.json".format(config["model_name"]))) as f:
+        dataset_info = json.load(f)
+
+    one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     # Read and normalize input data
     raw_data = np.loadtxt(config["input_file"], delimiter='\t')
@@ -276,4 +280,4 @@ if __name__ == '__main__':
     # reshape result, undo normalization and save it
     result = result.view(result.shape[0] * result.shape[1], result.shape[2])
     result = result * norm_std[None] + norm_mean[None]
-    np.savetxt(join(config["output_file"], config["model_name"] + "_imputed.tsv"), result.numpy(), delimiter='\t')
+    np.savetxt(join(config["output_file"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(), delimiter='\t')

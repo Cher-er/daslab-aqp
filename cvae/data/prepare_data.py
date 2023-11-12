@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from config.config import CVAEConfig
 import torch
+import json
 
 
 def stratified_masking(data, r, cat_cols, num_cols):
@@ -33,13 +34,14 @@ def loader():
     cat_cols = list(filter(lambda x: '_c' in x, cols))
     num_cols = list(filter(lambda x: '_n' in x, cols))
     unique_values = []
-    target_id = {}
+    one_hot_map = {}
+    one_hot_max_sizes = []
     for i, cat_col in enumerate(cat_cols):
         unique_values.append(data[cat_col].unique())
-        target_id[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
-        data[cat_col] = data[cat_col].map(target_id[cat_col])
-    print(target_id)
-    return data, cols, cat_cols, num_cols
+        one_hot_map[cat_col] = {x: i for i, x in enumerate(unique_values[i])}
+        data[cat_col] = data[cat_col].map(one_hot_map[cat_col])
+        one_hot_max_sizes.append(len(one_hot_map[cat_col]) - 1)
+    return data, cols, cat_cols, num_cols, one_hot_map, one_hot_max_sizes
 
 
 def save_data(filename, data):
@@ -47,10 +49,9 @@ def save_data(filename, data):
 
 
 def prepare_data():
-    dataset_info = {}
     config = CVAEConfig().get_config()
     print("Reading data...")
-    data, cols, cat_cols, num_cols = loader()
+    data, cols, cat_cols, num_cols, one_hot_map, one_hot_max_sizes = loader()
     random_seed = config["random_seed"]
     np.random.seed(random_seed)
     model_name = config["model_name"]
@@ -64,3 +65,11 @@ def prepare_data():
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
     print("Masked data has been saved in {}.".format(output_dir))
+
+    dataset_info = {
+        "columns": cols,
+        "one_hot_map": one_hot_map,
+        "one_hot_max_sizes": one_hot_max_sizes
+    }
+    with open(join(output_dir, "info", "{}_info.json".format(model_name))) as f:
+        json.dump(dataset_info, f)
