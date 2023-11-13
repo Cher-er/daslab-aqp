@@ -9,7 +9,7 @@
   "iter_bar": false,
   "num_imputations": 10,
   "batch_size": 64,
-  "epochs": 10,
+  "epochs": 1,
   "validation_ratio": 0.15,
   "validation_iwae_num_samples": 25,
   "validations_per_epoch": 1,

@@ -242,7 +242,7 @@ def train():
 
         # if batch size is less than batch_size, extend it with objects
         # from the beginning of the dataset
-        batch_extended = torch.tensor(batch)
+        batch_extended = batch.clone().detach()
         batch_extended = extend_batch(batch_extended, dataloader, batch_size)
 
         if use_cuda:
@@ -260,7 +260,7 @@ def train():
             samples_params = samples_params[:batch.shape[0]]
 
         # make a copy of batch with zeroed missing values
-        mask = torch.isnan(batch)
+        mask = batch.clone().detach()
         batch_zeroed_nans = torch.tensor(batch)
         batch_zeroed_nans[mask] = 0
 
@@ -269,7 +269,7 @@ def train():
         for i in range(config["num_imputations"]):
             sample_params = samples_params[:, i]
             sample = networks['sampler'](sample_params)
-            sample[(1 - mask).byte()] = 0
+            sample[(1 - mask) == 1] = 0
             sample += batch_zeroed_nans
             results[i].append(torch.tensor(sample, device='cpu'))
 
