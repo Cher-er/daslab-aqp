@@ -283,5 +283,5 @@ def train():
     # reshape result, undo normalization and save it
     result = result.view(result.shape[0] * result.shape[1], result.shape[2])
     result = result * norm_std[None] + norm_mean[None]
-    np.savetxt(join(config["output_file"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(), delimiter='\t')
-    print("out file has been saved in {}".format(join(config["output_file"], "{}_imputed.tsv".format(config["model_name"]))))
+    np.savetxt(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(), delimiter='\t')
+    print("out file has been saved in {}".format(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"]))))
