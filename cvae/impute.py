@@ -271,7 +271,7 @@ def train():
             sample = networks['sampler'](sample_params)
             sample[~mask] = 0
             sample += batch_zeroed_nans
-            results[i].append(torch.tensor(sample, device='cpu'))
+            results[i].append(sample.clone().detach().cpu())
 
     # concatenate all batches into one [n x K x D] tensor,
     # where n in the number of objects, K is the number of imputations
