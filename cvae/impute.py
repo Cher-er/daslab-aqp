@@ -260,8 +260,8 @@ def train():
             samples_params = samples_params[:batch.shape[0]]
 
         # make a copy of batch with zeroed missing values
-        mask = batch.clone().detach()
-        batch_zeroed_nans = torch.tensor(batch)
+        mask = torch.isnan(batch)
+        batch_zeroed_nans = batch.clone().detach()
         batch_zeroed_nans[mask] = 0
 
         # impute samples from the generative distributions into the data
