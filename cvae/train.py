@@ -98,7 +98,7 @@ def train():
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     # Read and normalize input data
-    raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t')
+    raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
