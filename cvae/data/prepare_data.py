@@ -51,7 +51,7 @@ def loader():
 
 def save_data(filename, data, cols):
     data_df = pd.DataFrame(data)
-    data_df.to_csv(filename, header=cols, sep='\t')
+    data_df.to_csv(filename, header=cols, sep='\t', index=False)
 
 
 def prepare_data():
