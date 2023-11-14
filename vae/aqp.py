@@ -8,5 +8,5 @@ def aqp_avg():
     results = execute_avg(os.path.join(config["output_dir"], 'samples_{}.csv'.format(config['num_samples'])))
     with open(os.path.join(config["output_dir"], 'samples_{}_aqp.csv'.format(config['num_samples'])), 'w') as f:
         for result in results:
-            f.write(str(result))
+            f.write(str(result) + "\n")
     print("AQP results has been saved in {}".format(os.path.join(config["output_dir"], 'samples_{}_aqp.csv'.format(config['num_samples']))))

@@ -11,7 +11,7 @@ def execute_avg(data_path):
     results = []
     for sql in sqls:
         data_c = data.copy()
-        print("[SQL]: {}".format(sql))
+        # print("[SQL]: {}".format(sql))
         sql = sql.split(";")[0]
         agg = sql.split("SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
@@ -29,7 +29,7 @@ def execute_avg(data_path):
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
-            print("col: {}, pre: {}".format(col, pre))
+            # print("col: {}, pre: {}".format(col, pre))
             data_c = data_c[data_c[col] == pre]
 
         results.append(data_c[agg].mean())
