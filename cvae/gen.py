@@ -10,7 +10,7 @@ from cvae.imputation_networks import get_imputation_networks
 from cvae.train_utils import extend_batch
 from config.config import CVAEConfig
 import json
-
+from cvae.VAEAC import VAEAC
 from cvae.utils import gen_masked_samples
 
 
@@ -25,14 +25,23 @@ def gen():
         dataset_info = json.load(f)
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
-    model = torch.load(join(output_dir, "model.pth"))
-
     networks = get_imputation_networks(one_hot_max_sizes)
+
+    use_cuda = torch.cuda.is_available()
+
+    model = VAEAC(
+        networks['reconstruction_log_prob'],
+        networks['proposal_network'],
+        networks['prior_network'],
+        networks['generative_network']
+    )
+    model.load_state_dict(torch.load(join(output_dir, "model.pth")))
+    if use_cuda:
+        model = model.cuda()
 
     batch_size = networks['batch_size']
     num_workers = 0
 
-    use_cuda = torch.cuda.is_available()
 
     raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
     raw_data = torch.from_numpy(raw_data).float()
