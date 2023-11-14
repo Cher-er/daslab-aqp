@@ -27,7 +27,7 @@ def execute_avg():
 
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
-            pre = predicate.split("=")[1].strip()
+            pre = predicate.split("=")[1].strip().strip("'").strip("\"")
             print("col: {}, pre: {}".format(col, pre))
             data = data[data[col] == pre]
 
