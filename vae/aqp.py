@@ -27,8 +27,7 @@ def execute_avg():
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip()
-            if "_n" in col:
-                pre = float(pre)
+            print(data[col] == pre)
             data = data[data[col] == pre]
 
         results.append(data[agg].mean())
