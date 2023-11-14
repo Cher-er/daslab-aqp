@@ -71,8 +71,8 @@ def prepare_data():
     data_masked = pd.concat([data_odd, data_even_masked])
 
     makedirs(output_dir, exist_ok=True)
-    save_data(join(output_dir, '{}_masked.tsv'.format(model_name)), data_masked, cols)
-    save_data(join(output_dir, '{}_original_data.tsv'.format(model_name)), data, cols)
+    # save_data(join(output_dir, '{}_masked.tsv'.format(model_name)), data_masked, cols)
+    # save_data(join(output_dir, '{}_original_data.tsv'.format(model_name)), data, cols)
     print("Masked data has been saved in {}.".format(join(output_dir, '{}_masked.tsv'.format(model_name))))
 
     one_hot_max_sizes = []
