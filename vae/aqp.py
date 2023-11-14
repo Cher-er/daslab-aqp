@@ -11,14 +11,14 @@ def execute_avg():
 
     results = []
     for sql in sqls:
-        agg = sql.split("(SELECT)|(select)")[1].split("(FROM)|(from)")[0].strip()
+        agg = sql.split("(SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
-        where = sql.split("(WHERE)|(where)")[1].strip()
+        where = sql.split("WHERE")[1].strip()
         if "(" in where:
             where = where.split("(")[1]
             where = where.split(")")[0].strip()
-        if "AND" in where or "and" in where:
-            predicates = where.split("(AND)|(and)")
+        if "AND" in where:
+            predicates = where.split("AND")
             for n, predicate in enumerate(predicates):
                 predicates[n] = predicate.strip()
         else:
