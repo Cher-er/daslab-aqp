@@ -223,6 +223,7 @@ def train():
 
     makedirs(output_dir, exist_ok=True)
     torch.save(best_state["model_state_dict"], join(output_dir, "model.pth"))
+    print("CVAE model has been saved in {}".format(join(output_dir, "model.pth")))
 
     # # if use doesn't set use_last_checkpoint flag,
     # # use the best model according to the validation IWAE
