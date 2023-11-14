@@ -123,6 +123,7 @@ def gen():
     for i, col in enumerate(columns):
         if col in cat_cols:
             for j, one_hot in enumerate(result_np[i]):
+                one_hot = int(one_hot)
                 col_map = one_hot_map[col]
                 list_of_key = list(col_map.keys())
                 list_of_value = list(col_map.values())
