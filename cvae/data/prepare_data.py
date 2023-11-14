@@ -64,7 +64,10 @@ def prepare_data():
     output_dir = config["output_dir"]
 
     print("Masking data...")
-    data_masked = stratified_masking(data, r, cat_cols, num_cols)
+    data_odd = data[data.index % 2 == 1]
+    data_even = data[data.index % 2 == 0]
+    data_even_masked = stratified_masking(data_even, r, cat_cols, num_cols)
+    data_masked = pd.concat([data_odd, data_even_masked])
 
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
