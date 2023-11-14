@@ -7,7 +7,6 @@ import vae.aqp
 import vae.ground_truth
 import vae.measure
 
-import cvae.data.prepare_data
 import cvae.train
 import cvae.gen
 import cvae.aqp
@@ -41,8 +40,7 @@ if __name__ == '__main__':
         cvae.gen.gen()
     else:
         if args['cvae']['train']:
-            # cvae.train.train()
-            cvae.data.prepare_data.prepare_data()
+            cvae.train.train()
         if args['cvae']['gen']:
             cvae.gen.gen()
         if args['cvae']['aqp']:

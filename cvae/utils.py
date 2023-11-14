@@ -13,6 +13,9 @@ def gen_masked_samples():
         dataset_info = json.load(f)
 
     columns = dataset_info["columns"]
+    cat_cols = dataset_info["cat_cols"]
+    num_cols = dataset_info["num_cols"]
+    one_hot_map = dataset_info["one_hot_map"]
 
     masked_datas = []
     for sql in sqls:
@@ -33,9 +36,13 @@ def gen_masked_samples():
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
-            if pre.isdigit():
-                pre = int(pre)
-            masked_data[columns.index(col)] = pre
+            if col in num_cols:
+                masked_data[columns.index(col)] = pre
+            elif col in cat_cols:
+                if pre.isdigit():
+                    pre = int(pre)
+                one_hot_code = one_hot_map[col][pre]
+                masked_data[columns.index(col)] = one_hot_code
         masked_datas.append(masked_data)
 
     masked_datas = pd.DataFrame(masked_datas)
