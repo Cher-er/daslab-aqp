@@ -50,7 +50,8 @@ def loader():
 
 
 def save_data(filename, data, cols):
-    np.savetxt(filename, data, delimiter='\t', fmt='%s', header=cols)
+    data_df = pd.DataFrame(data)
+    data_df.to_csv(filename, header=cols, sep='\t')
 
 
 def prepare_data():
