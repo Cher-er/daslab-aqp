@@ -48,9 +48,9 @@ def gen_masked_samples():
     print("The masked samples according to SQL have been saved in {}".format(os.path.join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"]))))
 
 
-def execute_avg(data_path):
+def execute_avg(data_path, sep):
     config = CVAEConfig().get_config()
-    data = pd.read_csv(data_path, delimiter="\t")
+    data = pd.read_csv(data_path, delimiter=sep)
     with open(config["sql_file"]) as f:
         sqls = f.readlines()
 
