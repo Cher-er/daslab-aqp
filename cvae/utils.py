@@ -39,8 +39,6 @@ def gen_masked_samples():
             if col in num_cols:
                 masked_data[columns.index(col)] = pre
             elif col in cat_cols:
-                if pre.isdigit():
-                    pre = int(pre)
                 one_hot_code = one_hot_map[col][pre]
                 masked_data[columns.index(col)] = one_hot_code
         masked_datas.append(masked_data)
