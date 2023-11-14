@@ -1,13 +1,7 @@
 import pandas as pd
 import os
 from config.config import VAEConfig
-import numpy as np
-
-
-def sMAPE(truth, aqp):
-    result = 2 * (truth - aqp).abs() / (truth.abs() + aqp.abs())
-    result[np.isinf(result)] = 0
-    return result.mean()
+from utils.utils import sMAPE
 
 
 def measure():
@@ -16,6 +10,4 @@ def measure():
     truth = pd.read_csv(os.path.join(config["output_dir"], 'samples_{}_truth.csv'.format(config['num_samples'])), header=None)
     smape = sMAPE(truth, aqp)
     smape.to_csv(os.path.join(config["output_dir"], 'samples_{}_measure.csv'.format(config['num_samples'])), index=False, header=["sMAPE"])
-    # with open(os.path.join(config["output_dir"], 'samples_{}_measure.csv'.format(config['num_samples'])), 'w') as f:
-    #     f.write(str(smape[0][0]))
     print("Measure result has been saved in {}".format(os.path.join(config["output_dir"], 'samples_{}_measure.csv'.format(config['num_samples']))))

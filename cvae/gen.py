@@ -7,12 +7,16 @@ from tqdm import tqdm
 
 from cvae.datasets import compute_normalization
 from cvae.imputation_networks import get_imputation_networks
-from cvae.train_utils import extend_batch, get_validation_iwae
+from cvae.train_utils import extend_batch
 from config.config import CVAEConfig
 import json
 
+from cvae.utils import gen_masked_samples
+
 
 def gen():
+    gen_masked_samples()
+
     config = CVAEConfig().get_config()
     output_dir = config["output_dir"]
     iter_bar = config["iter_bar"]
@@ -30,11 +34,14 @@ def gen():
 
     use_cuda = torch.cuda.is_available()
 
-    raw_data = np.loadtxt(join(config["output_dir"], "train_test_split", "{}_masked.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
+    raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
-    data = (raw_data - norm_mean[None]) / norm_std[None]
+
+    sample_data = np.loadtxt(join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
+    sample_data = torch.from_numpy(sample_data).float()
+    data = (sample_data - norm_mean[None]) / norm_std[None]
 
 
     # build dataloader for the whole input data
@@ -99,5 +106,5 @@ def gen():
     result = result * norm_std[None] + norm_mean[None]
     np.savetxt(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(),
                delimiter='\t')
-    print("out file has been saved in {}".format(
+    print("Out file has been saved in {}".format(
         join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"]))))

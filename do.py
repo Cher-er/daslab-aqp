@@ -1,13 +1,17 @@
 import json
+import os
+
 import vae.train
 import vae.gen
 import vae.aqp
 import vae.ground_truth
 import vae.measure
-import os
+
 import cvae.train
 import cvae.gen
-import cvae.utils
+import cvae.aqp
+import cvae.ground_truth
+import cvae.measure
 
 if __name__ == '__main__':
     with open(os.path.join(os.getcwd(), 'config', 'main.json')) as f:
@@ -38,4 +42,10 @@ if __name__ == '__main__':
         if args['cvae']['train']:
             cvae.train.train()
         if args['cvae']['gen']:
-            cvae.utils.gen_masked_samples()
+            cvae.gen.gen()
+        if args['cvae']['aqp']:
+            cvae.aqp.aqp_avg()
+        if args['cvae']['ground_truth']:
+            cvae.ground_truth.exact_avg()
+        if args['cvae']['measure']:
+            cvae.measure.measure()
