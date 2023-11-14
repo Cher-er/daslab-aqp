@@ -49,8 +49,8 @@ def loader():
     return data, list(cols), cat_cols, num_cols, one_hot_map
 
 
-def save_data(filename, data):
-    np.savetxt(filename, data, delimiter='\t', fmt='%s')
+def save_data(filename, data, cols):
+    np.savetxt(filename, data, delimiter='\t', fmt='%s', header=cols)
 
 
 def prepare_data():
@@ -70,8 +70,8 @@ def prepare_data():
     data_masked = pd.concat([data_odd, data_even_masked])
 
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
-    save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
-    save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
+    save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked, cols)
+    save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data, cols)
     print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name))))
 
     one_hot_max_sizes = []
