@@ -7,7 +7,7 @@
   "random_seed": 42,
   "verbose": true,
   "iter_bar": true,
-  "num_imputations": 10,
+  "num_imputations": 5,
   "batch_size": 64,
   "epochs": 1,
   "validation_ratio": 0.15,

@@ -1,5 +1,10 @@
 # VAE
 ## 使用示例
+
+> Note：可以将 main.json 中的多个参数设为 true，程序会连续执行
+>
+> 若将 main.json 中某个模块的 all 参数设为 true，则相当于将其他所有参数设为 true
+
 1. 修改 config/main.json
 
    ```json
