@@ -16,5 +16,6 @@ def measure():
     truth = pd.read_csv(os.path.join(config["output_dir"], 'samples_{}_truth.csv'.format(config['num_samples'])), header=None)
     smape = sMAPE(truth, aqp)
     with open(os.path.join(config["output_dir"], 'samples_{}_sMAPE.csv'.format(config['num_samples'])), 'w') as f:
+        print(smape)
         f.write(str(smape))
     print("Measure result has been saved in {}".format(os.path.join(config["output_dir"], 'samples_{}_measure.csv'.format(config['num_samples']))))
