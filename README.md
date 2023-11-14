@@ -89,7 +89,7 @@
    python do.py
    ```
 
-   执行成功后，在 your/output/dir/path  目录下会生成 samples_1000_aqp.csv（近似结果） 和 samples_1000_truth.csv（精确结果） 文件
+   执行成功后，在 your/output/dir/path  目录下会生成 samples_1000_aqp.csv（近似结果） 和 samples_1000_truth.csv（精确结果） 文件，以及 samples_1000_measure.csv （sMAPE）文件
 
 
 
