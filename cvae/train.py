@@ -93,13 +93,13 @@ def train():
     config = CVAEConfig().get_config()
     output_dir = config["output_dir"]
 
-    with open(join(config["output_dir"], "info", "{}_info.json".format(config["model_name"]))) as f:
+    with open(join(config["output_dir"], "{}_info.json".format(config["model_name"]))) as f:
         dataset_info = json.load(f)
 
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     # Read and normalize input data
-    raw_data = np.loadtxt(join(config["output_dir"], "train_test_split", "{}_masked.tsv".format(config["model_name"])), delimiter='\t')
+    raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t')
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
@@ -222,6 +222,7 @@ def train():
             if iter_bar:
                 iterator.set_description('Train VLB: %g' % avg_vlb)
 
+    makedirs(output_dir, exist_ok=True)
     torch.save(best_state["model_state_dict"], join(output_dir, "model.pth"))
 
     # # if use doesn't set use_last_checkpoint flag,

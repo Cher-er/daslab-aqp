@@ -69,10 +69,10 @@ def prepare_data():
     data_even_masked = stratified_masking(data_even, r, cat_cols, num_cols)
     data_masked = pd.concat([data_odd, data_even_masked])
 
-    makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
-    save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked, cols)
-    save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data, cols)
-    print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name))))
+    makedirs(output_dir, exist_ok=True)
+    save_data(join(output_dir, '{}_masked.tsv'.format(model_name)), data_masked, cols)
+    save_data(join(output_dir, '{}_original_data.tsv'.format(model_name)), data, cols)
+    print("Masked data has been saved in {}.".format(join(output_dir, '{}_masked.tsv'.format(model_name))))
 
     one_hot_max_sizes = []
     for col in cols:
@@ -86,6 +86,6 @@ def prepare_data():
         "one_hot_map": one_hot_map,
         "one_hot_max_sizes": one_hot_max_sizes
     }
-    makedirs(join(output_dir, "info"), exist_ok=True)
-    with open(join(output_dir, "info", "{}_info.json".format(model_name)), 'w') as f:
+    with open(join(output_dir, "{}_info.json".format(model_name)), 'w') as f:
         json.dump(dataset_info, f)
+    print("Some information of dataset has been saved in {}.".format(join(output_dir, "{}_info.json".format(model_name))))
