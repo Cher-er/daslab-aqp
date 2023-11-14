@@ -1,38 +1,11 @@
-import pandas as pd
 from config.config import VAEConfig
 import os
+from vae.utils import execute_avg
 
 
-def execute_avg():
+def aqp_avg():
     config = VAEConfig().get_config()
-    raw_data = pd.read_csv(os.path.join(config["output_dir"], 'samples_{}.csv'.format(config['num_samples'])), delimiter=",")
-    with open(config["sql_file"]) as f:
-        sqls = f.readlines()
-
-    results = []
-    for sql in sqls:
-        data = raw_data.copy()
-        print("[SQL]: {}".format(sql))
-        sql = sql.split(";")[0]
-        agg = sql.split("SELECT")[1].split("FROM")[0].strip()
-        agg = agg.split("(")[1].split(")")[0].strip()
-        where = sql.split("WHERE")[1].strip()
-        if "(" in where:
-            where = where.split("(")[1]
-            where = where.split(")")[0].strip()
-        if "AND" in where:
-            predicates = where.split("AND")
-            for n, predicate in enumerate(predicates):
-                predicates[n] = predicate.strip()
-        else:
-            predicates = [where]
-
-        for predicate in predicates:
-            col = predicate.split("=")[0].strip()
-            pre = predicate.split("=")[1].strip().strip("'").strip("\"")
-            print("col: {}, pre: {}".format(col, pre))
-            data = data[data[col] == pre]
-
-        results.append(data[agg].mean())
-
-    print("[results]: {}".format(results))
+    results = execute_avg(os.path.join(config["output_dir"], 'samples_{}.csv'.format(config['num_samples'])))
+    with open(os.path.join(config["output_dir"], 'samples_{}_aqp.csv'.format(config['num_samples']))) as f:
+        f.writelines(results)
+    print("AQP results has been saved in {}".format(os.path.join(config["output_dir"], 'samples_{}_aqp.csv'.format(config['num_samples']))))
