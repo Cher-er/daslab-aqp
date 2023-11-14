@@ -21,7 +21,7 @@ def gen():
     output_dir = config["output_dir"]
     iter_bar = config["iter_bar"]
 
-    with open(join(config["output_dir"], "info", "{}_info.json".format(config["model_name"]))) as f:
+    with open(join(config["output_dir"], "{}_info.json".format(config["model_name"]))) as f:
         dataset_info = json.load(f)
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
