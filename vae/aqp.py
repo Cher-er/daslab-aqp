@@ -11,6 +11,7 @@ def execute_avg():
 
     results = []
     for sql in sqls:
+        print("====SQL: {}====".format(sql))
         agg = sql.split("SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
         where = sql.split("WHERE")[1].strip()
