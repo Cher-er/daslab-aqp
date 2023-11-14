@@ -72,7 +72,7 @@ def prepare_data():
     makedirs(join(output_dir, 'train_test_split'), exist_ok=True)
     save_data(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name)), data_masked)
     save_data(join(output_dir, 'train_test_split', '{}_original_data.tsv'.format(model_name)), data)
-    print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split')))
+    print("Masked data has been saved in {}.".format(join(output_dir, 'train_test_split', '{}_masked.tsv'.format(model_name))))
 
     one_hot_max_sizes = []
     for col in cols:
