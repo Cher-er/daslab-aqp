@@ -1,11 +1,11 @@
 import pandas as pd
-from config.config import VAEConfig
+from config.config import CVAEConfig
 import os
 import json
 
 
 def gen_masked_samples():
-    config = VAEConfig().get_config()
+    config = CVAEConfig().get_config()
     with open(config["sql_file"]) as f:
         sqls = f.readlines()
 
