@@ -71,14 +71,17 @@
    {
      "vae": {
        "aqp": true,
-       "ground_truth": true
+       "ground_truth": true,
+       "measure": true
      }
    }
    ```
 
    > 表示根据刚才生成的样本，执行 sql_file 所指定的 SQL语句，得到近似结果；
    >
-   > 以及根据 input_file 所指定的原始数据，执行精确查询，得到精确结果。
+   > 以及根据 input_file 所指定的原始数据，执行精确查询，得到精确结果；
+   >
+   > 最后，比较两个结果，计算 sMAPE 指标
 
 7. 运行 do.py 脚本
 
