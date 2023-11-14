@@ -5,9 +5,7 @@
    ```json
    {
      "vae": {
-       "train": true,
-       "gen": false,
-       "aqp": false
+       "train": true
      }
    }
    ```
@@ -52,9 +50,7 @@
    ```json
    {
      "vae": {
-       "train": false,
-       "gen": true,
-       "aqp": false
+       "gen": true
      }
    }
    ```
@@ -69,7 +65,28 @@
 
    执行成功后，在 your/output/dir/path  目录下会生成 samples_1000.csv 文件，后缀表示样本数量，由 config/vae.json 中的参数 num_samples 控制。
    
-6. 修改 config/
+6. 修改 config/main.json
+
+   ```sql
+   {
+     "vae": {
+       "aqp": true,
+       "ground_truth": true
+     }
+   }
+   ```
+
+   > 表示根据刚才生成的样本，执行 sql_file 所指定的 SQL语句，得到近似结果；
+   >
+   > 以及根据 input_file 所指定的原始数据，执行精确查询，得到精确结果。
+
+7. 运行 do.py 脚本
+
+   ```sh
+   python do.py
+   ```
+
+   执行成功后，在 your/output/dir/path  目录下会生成 samples_1000_aqp.csv（近似结果） 和 samples_1000_truth.csv（精确结果） 文件
 
 
 
@@ -98,6 +115,14 @@
 - SQL语句中的属性名必须加后缀 `_n` 或 `_c`，即属性名要和数据集中的属性名保持一致
 
 - SQL语句中，FROM后的表名没有实效，数据源是根据 `output_dir` 和 `num_samples` 找到的 `samples_XXX.csv` 文件
+
+- SQL语句中，聚合属性必须为数值列，谓词属性必须为分类列
+
+- SQL语句中，用单引号或双引号表示字符串
+
+- SQL语句中，等号必须写为 `=`，而非 `==`
+
+- SQL语句中，分号 `;` 不是必须的
 
 - 以下为一个合法SQL文件的示例：
 

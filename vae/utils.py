@@ -29,6 +29,8 @@ def execute_avg(data_path):
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
+            if pre.isdigit():
+                pre = int(pre)
             # print("col: {}, pre: {}".format(col, pre))
             data_c = data_c[data_c[col] == pre]
 
