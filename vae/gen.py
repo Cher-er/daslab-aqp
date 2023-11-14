@@ -92,3 +92,4 @@ def gen_sample():
         transformed_output = transform_reverse(out, args['data_output_dir'])
         print("GENERATED NUM OF SAMPLES", transformed_output.shape[0])
         transformed_output.to_csv(os.path.join(args['output_dir'], 'samples_{}.csv'.format(args['num_samples'])), index=False)
+        print("Sample has been saved in {}".format(os.path.join(args['output_dir'], 'samples_{}.csv'.format(args['num_samples']))))

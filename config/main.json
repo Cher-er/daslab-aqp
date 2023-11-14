@@ -1,9 +1,10 @@
 {
   "vae": {
     "train": false,
-    "gen": true,
-    "aqp": true,
-    "ground_truth": true
+    "gen": false,
+    "aqp": false,
+    "ground_truth": false,
+    "measure": true
   },
   "cvae": {
     "pre_data": false,
