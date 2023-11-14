@@ -92,7 +92,3 @@ def prepare_data():
     with open(join(output_dir, "{}_info.json".format(model_name)), 'w') as f:
         json.dump(dataset_info, f)
     print("Some information of dataset has been saved in {}.".format(join(output_dir, "{}_info.json".format(model_name))))
-
-
-if __name__ == '__main__':
-    prepare_data()
