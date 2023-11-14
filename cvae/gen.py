@@ -120,21 +120,31 @@ def gen():
     result = result * norm_std[None] + norm_mean[None]
     # np.savetxt(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(), delimiter='\t')
     result_np = result.numpy()
-    for i, col in enumerate(columns):
-        if col in cat_cols:
-            col_map = one_hot_map[col]
-            print("col_map:", col_map)
-            for j, one_hot in enumerate(result_np[i]):
-                print(i, j)
-                one_hot = int(one_hot)
-                list_of_key = list(col_map.keys())
-                list_of_value = list(col_map.values())
-                print("list_of_key:", list_of_key)
-                print("list_of_value:", list_of_value)
-                col_value = list_of_key[list_of_value.index(one_hot)]
-                result_np[i][j] = col_value
+
+    list_of_key = {}
+    list_of_value = {}
+    for col, col_map in one_hot_map.items():
+        list_of_key[col] = list(col_map.keys())
+        list_of_value[col] = list(col_map.values())
+
+    # for i, col in enumerate(columns):
+    #     if col in cat_cols:
+    #         for j, one_hot in enumerate(result_np[i]):
+    #             col_map = one_hot_map[col]
+    #             one_hot = int(one_hot)
+    #             list_of_key = list(col_map.keys())
+    #             list_of_value = list(col_map.values())
+    #             col_value = list_of_key[list_of_value.index(one_hot)]
+    #             result_np[i][j] = col_value
 
     result_df = pd.DataFrame(result_np)
+    result_df.rename(columns=columns)
+    for col in cat_cols:
+        for j, one_hot in enumerate(result_df[col]):
+            one_hot = int(one_hot)
+            col_value = list_of_key[col][list_of_value[col].index(one_hot)]
+            result_df[col][j] = col_value
+
     result_df.to_csv(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), header=columns, index=False, sep='\t')
     print("Out file has been saved in {}".format(
         join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"]))))
