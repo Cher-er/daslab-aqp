@@ -8,11 +8,11 @@
     "measure": false
   },
   "cvae": {
-    "all": false,
+    "all": true,
     "train": false,
     "gen": false,
-    "aqp": true,
-    "ground_truth": true,
-    "measure": true
+    "aqp": false,
+    "ground_truth": false,
+    "measure": false
   }
 }
