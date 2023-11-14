@@ -38,6 +38,9 @@ if __name__ == '__main__':
     if args['cvae']['all']:
         cvae.train.train()
         cvae.gen.gen()
+        cvae.aqp.aqp_avg()
+        cvae.ground_truth.exact_avg()
+        cvae.measure.measure()
     else:
         if args['cvae']['train']:
             cvae.train.train()
