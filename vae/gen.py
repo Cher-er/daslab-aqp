@@ -91,4 +91,4 @@ def gen_sample():
         out = tensor_out.cpu().detach().numpy()
         transformed_output = transform_reverse(out, args['data_output_dir'])
         print("GENERATED NUM OF SAMPLES", transformed_output.shape[0])
-        transformed_output.to_csv(args['output_dir'] + 'samples_{}.csv'.format(args['num_samples']), index=False)
+        transformed_output.to_csv(os.path.join(args['output_dir'], 'samples_{}.csv'.format(args['num_samples'])), index=False)

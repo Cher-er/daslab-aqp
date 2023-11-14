@@ -1,10 +1,11 @@
 {
   "vae": {
     "train": false,
-    "gen": false
+    "gen": false,
+    "aqp": true
   },
   "cvae": {
-    "pre_data": true,
+    "pre_data": false,
     "train": false
   }
 }
