@@ -11,7 +11,7 @@ def execute_avg():
 
     results = []
     for sql in sqls:
-        print("====SQL: {}====".format(sql))
+        print("[SQL]: {}".format(sql))
         agg = sql.split("SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
         where = sql.split("WHERE")[1].strip()
@@ -28,7 +28,7 @@ def execute_avg():
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip()
-            print(data[col] == pre)
+            print("col: {}, pre: {}".format(col, pre))
             data = data[data[col] == pre]
 
         results.append(data[agg].mean())
