@@ -138,7 +138,7 @@ def gen():
     #             result_np[i][j] = col_value
 
     result_df = pd.DataFrame(result_np)
-    result_df.rename(columns=columns)
+    result_df.columns = columns
     for col in cat_cols:
         for j, one_hot in enumerate(result_df[col]):
             one_hot = int(one_hot)
