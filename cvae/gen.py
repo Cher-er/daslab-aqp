@@ -118,8 +118,6 @@ def gen():
     # reshape result, undo normalization and save it
     result = result.view(result.shape[0] * result.shape[1], result.shape[2])
     result = result * norm_std[None] + norm_mean[None]
-    # np.savetxt(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), result.numpy(), delimiter='\t')
-    result_np = result.numpy()
 
     list_of_key = {}
     list_of_value = {}
@@ -127,23 +125,13 @@ def gen():
         list_of_key[col] = list(col_map.keys())
         list_of_value[col] = list(col_map.values())
 
-    # for i, col in enumerate(columns):
-    #     if col in cat_cols:
-    #         for j, one_hot in enumerate(result_np[i]):
-    #             col_map = one_hot_map[col]
-    #             one_hot = int(one_hot)
-    #             list_of_key = list(col_map.keys())
-    #             list_of_value = list(col_map.values())
-    #             col_value = list_of_key[list_of_value.index(one_hot)]
-    #             result_np[i][j] = col_value
-
-    result_df = pd.DataFrame(result_np)
+    result_df = pd.DataFrame(result.numpy())
     result_df.columns = columns
     for col in cat_cols:
         for j, one_hot in enumerate(result_df[col]):
             one_hot = int(one_hot)
             col_value = list_of_key[col][list_of_value[col].index(one_hot)]
-            result_df[col][j] = col_value
+            result_df.loc[col][j] = col_value
 
     result_df.to_csv(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), header=columns, index=False, sep='\t')
     print("Out file has been saved in {}".format(
