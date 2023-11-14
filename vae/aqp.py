@@ -5,13 +5,15 @@ import os
 
 def execute_avg():
     config = VAEConfig().get_config()
-    data = pd.read_csv(os.path.join(config["output_dir"], 'samples_{}.csv'.format(config['num_samples'])), delimiter=",")
+    raw_data = pd.read_csv(os.path.join(config["output_dir"], 'samples_{}.csv'.format(config['num_samples'])), delimiter=",")
     with open(config["sql_file"]) as f:
         sqls = f.readlines()
 
     results = []
     for sql in sqls:
+        data = raw_data.copy()
         print("[SQL]: {}".format(sql))
+        sql = sql.split(";")[0]
         agg = sql.split("SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
         where = sql.split("WHERE")[1].strip()
@@ -33,4 +35,4 @@ def execute_avg():
 
         results.append(data[agg].mean())
 
-    print(results)
+    print("[results]: {}".format(results))
