@@ -84,9 +84,15 @@ def prepare_data():
 
     dataset_info = {
         "columns": cols,
+        "cat_cols": cat_cols,
+        "num_cols": num_cols,
         "one_hot_map": one_hot_map,
         "one_hot_max_sizes": one_hot_max_sizes
     }
     with open(join(output_dir, "{}_info.json".format(model_name)), 'w') as f:
         json.dump(dataset_info, f)
     print("Some information of dataset has been saved in {}.".format(join(output_dir, "{}_info.json".format(model_name))))
+
+
+if __name__ == '__main__':
+    prepare_data()
