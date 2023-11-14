@@ -122,12 +122,15 @@ def gen():
     result_np = result.numpy()
     for i, col in enumerate(columns):
         if col in cat_cols:
+            col_map = one_hot_map[col]
+            print("col_map:", col_map)
             for j, one_hot in enumerate(result_np[i]):
                 print(i, j)
                 one_hot = int(one_hot)
-                col_map = one_hot_map[col]
                 list_of_key = list(col_map.keys())
                 list_of_value = list(col_map.values())
+                print("list_of_key:", list_of_key)
+                print("list_of_value:", list_of_value)
                 col_value = list_of_key[list_of_value.index(one_hot)]
                 result_np[i][j] = col_value
 
