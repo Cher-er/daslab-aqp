@@ -131,7 +131,7 @@ def gen():
         for j, one_hot in enumerate(result_df[col]):
             one_hot = int(one_hot)
             col_value = list_of_key[col][list_of_value[col].index(one_hot)]
-            result_df.iloc[col][j] = col_value
+            result_df.iloc[j, result_df.columns.get_loc(col)] = col_value
 
     result_df.to_csv(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), header=columns, index=False, sep='\t')
     print("Out file has been saved in {}".format(
