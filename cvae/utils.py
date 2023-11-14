@@ -35,7 +35,7 @@ def gen_masked_samples():
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
             if pre.isdigit():
                 pre = int(pre)
-            masked_data[masked_data.index(col)] = pre
+            masked_data[columns.index(col)] = pre
         masked_datas.append(masked_data)
 
     masked_datas = pd.DataFrame(masked_datas)
