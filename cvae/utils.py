@@ -40,3 +40,4 @@ def gen_masked_samples():
 
     masked_datas = pd.DataFrame(masked_datas)
     masked_datas.to_csv(os.path.join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"])), sep='\t', na_rep="nan", header=columns, index=False)
+    print("The masked samples according to SQL have been saved in {}".format(os.path.join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"]))))
