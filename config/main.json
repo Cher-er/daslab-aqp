@@ -7,7 +7,7 @@
     "measure": true
   },
   "cvae": {
-    "pre_data": false,
+    "pre_data": true,
     "train": false
   }
 }
