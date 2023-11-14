@@ -7,6 +7,7 @@ import vae.measure
 import os
 import cvae.train
 import cvae.gen
+import cvae.utils
 
 if __name__ == '__main__':
     with open(os.path.join(os.getcwd(), 'config', 'main.json')) as f:
@@ -37,4 +38,4 @@ if __name__ == '__main__':
         if args['cvae']['train']:
             cvae.train.train()
         if args['cvae']['gen']:
-            cvae.gen.gen()
+            cvae.utils.gen_masked_samples()
