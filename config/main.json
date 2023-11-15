@@ -1,6 +1,6 @@
 {
   "vae": {
-    "all": true,
+    "all": false,
     "train": false,
     "gen": false,
     "aqp": false,

@@ -34,7 +34,6 @@ def gen():
     one_hot_max_sizes = dataset_info["one_hot_max_sizes"]
 
     networks = get_imputation_networks(one_hot_max_sizes)
-
     use_cuda = torch.cuda.is_available()
 
     model = VAEAC(
@@ -43,6 +42,7 @@ def gen():
         networks['prior_network'],
         networks['generative_network']
     )
+    print(torch.cuda.is_available())
     model.load_state_dict(torch.load(join(output_dir, "model.pth")))
     if use_cuda:
         model = model.cuda()
