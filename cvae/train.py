@@ -3,6 +3,7 @@ from math import ceil
 from os.path import join
 from os import makedirs
 from sys import stderr
+import os
 
 import numpy as np
 import torch
@@ -30,6 +31,9 @@ def train():
     validation_ratio = config["validation_ratio"]
     validations_per_epoch = config["validations_per_epoch"]
     validation_iwae_num_samples = config["validation_iwae_num_samples"]
+    gpus = config["gpus"]
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = gpus
 
     with open(join(output_dir, "{}_info.json".format(dataset))) as f:
         dataset_info = json.load(f)

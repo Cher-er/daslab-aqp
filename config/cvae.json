@@ -10,5 +10,6 @@
   "validation_ratio": 0.15,
   "validation_iwae_num_samples": 25,
   "validations_per_epoch": 1,
-  "use_last_checkpoint": false
+  "use_last_checkpoint": false,
+  "gpus": "[1,0]"
 }
