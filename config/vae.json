@@ -1,6 +1,6 @@
 {
   "data_output_dir": "/home/yc/dataset/flights/out/vae/data/",
-  "batch_size": 64,
+  "batch_size": 32,
   "latent_dim": 64,
   "neuron_list": 200,
   "epochs": 10,
