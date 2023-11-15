@@ -27,9 +27,10 @@ def stratified_masking(data, r, cat_cols, num_cols):
 
 
 def loader():
-    path = CVAEConfig().get_config()["input_file"]
+    config = CVAEConfig().get_config()
+    input_file = config["input_file"]
     csv_separator = CVAEConfig().get_config()["csv_separator"]
-    data = pd.read_csv(path, sep=csv_separator)
+    data = pd.read_csv(input_file, sep=csv_separator)
     cols = data.columns
     cat_cols = list(filter(lambda x: '_c' in x, cols))
     num_cols = list(filter(lambda x: '_n' in x, cols))
@@ -56,13 +57,15 @@ def save_data(filename, data, cols):
 
 def prepare_data():
     config = CVAEConfig().get_config()
+    random_seed = config['random_seed']
+    dataset = config["dataset"]
+    output_dir = config["output_dir"]
+
     print("Reading data...")
     data, cols, cat_cols, num_cols, one_hot_map = loader()
-    random_seed = config["random_seed"]
     np.random.seed(random_seed)
-    model_name = config["model_name"]
+
     r = config["mask_r"]
-    output_dir = config["output_dir"]
 
     print("Masking data...")
     data_odd = data[data.index % 2 == 1]
@@ -71,9 +74,9 @@ def prepare_data():
     data_masked = pd.concat([data_odd, data_even_masked])
 
     makedirs(output_dir, exist_ok=True)
-    save_data(join(output_dir, '{}_masked.tsv'.format(model_name)), data_masked, cols)
-    save_data(join(output_dir, '{}_original_data.tsv'.format(model_name)), data, cols)
-    print("Masked data has been saved in {}.".format(join(output_dir, '{}_masked.tsv'.format(model_name))))
+    save_data(join(output_dir, '{}_masked.tsv'.format(dataset)), data_masked, cols)
+    save_data(join(output_dir, '{}_original_data.tsv'.format(dataset)), data, cols)
+    print("Masked data has been saved in {}.".format(join(output_dir, '{}_masked.tsv'.format(dataset))))
 
     one_hot_max_sizes = []
     for col in cols:
@@ -89,6 +92,6 @@ def prepare_data():
         "one_hot_map": one_hot_map,
         "one_hot_max_sizes": one_hot_max_sizes
     }
-    with open(join(output_dir, "{}_info.json".format(model_name)), 'w') as f:
+    with open(join(output_dir, "{}_info.json".format(dataset)), 'w') as f:
         json.dump(dataset_info, f)
-    print("Some information of dataset has been saved in {}.".format(join(output_dir, "{}_info.json".format(model_name))))
+    print("Some information of dataset has been saved in {}.".format(join(output_dir, "{}_info.json".format(dataset))))

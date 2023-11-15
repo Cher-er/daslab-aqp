@@ -1,8 +1,4 @@
 {
-  "model_name": "flights",
-  "input_file": "/home/yc/dataset/flights/csv/flights_with_header/flights_with_header.csv",
-  "sql_file": "/home/yc/dataset/flights/sql/avg_queries.sql",
-  "output_dir": "/home/yc/dataset/flights/out/cvae/out/",
   "csv_separator": ",",
   "mask_r": 0.5,
   "random_seed": 42,

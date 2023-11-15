@@ -1,0 +1,6 @@
+{
+  "dataset": "flights",
+  "input_file": "/home/yc/dataset/flights/csv/flights_with_header/flights_with_header.csv",
+  "sql_file": "/home/yc/dataset/flights/sql/avg_queries.sql",
+  "output_dir": "/home/yc/daslab-aqp/out/"
+}

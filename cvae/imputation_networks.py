@@ -2,7 +2,7 @@ from torch import nn
 from torch.optim import Adam
 
 from cvae.mask_generators import MCARGenerator
-from cvae.nn_utils import ResBlock, MemoryLayer, SkipConnection
+from cvae.nn_utils import MemoryLayer, SkipConnection
 from cvae.prob_utils import CategoricalToOneHotLayer, GaussianCategoricalLoss, \
                        GaussianCategoricalSampler, SetGaussianSigmasToOne
 from config.config import CVAEConfig

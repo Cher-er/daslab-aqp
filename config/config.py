@@ -13,23 +13,33 @@ class Singleton:
         return self._instance[self._cls]
 
 
-@Singleton
-class VAEConfig:
+def get_config(file_name):
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), file_name)) as f:
+        config = json.load(f)
+    return config
+
+
+class CommonConfig:
     def __init__(self):
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "vae.json")) as f:
-            config = json.load(f)
-        self.config = config
+        self.config = get_config("common.json")
 
     def get_config(self):
         return self.config
 
 
 @Singleton
-class CVAEConfig:
+class VAEConfig(CommonConfig):
     def __init__(self):
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "cvae.json")) as f:
-            config = json.load(f)
-        self.config = config
+        CommonConfig.__init__(self)
+        self.config.update(get_config("vae.json"))
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "vae")
+        os.makedirs(self.config['output_dir'], exist_ok=True)
 
-    def get_config(self):
-        return self.config
+
+@Singleton
+class CVAEConfig(CommonConfig):
+    def __init__(self):
+        CommonConfig.__init__(self)
+        self.config.update(get_config("cvae.json"))
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "cvae")
+        os.makedirs(self.config['output_dir'], exist_ok=True)

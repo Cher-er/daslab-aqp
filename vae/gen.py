@@ -1,43 +1,50 @@
 from vae.VAE import *
 from config.config import VAEConfig
+import os
 
 
 def gen_sample():
-    args = VAEConfig().get_config()
+    config = VAEConfig().get_config()
+    output_dir = config['output_dir']
+    num_samples = config['num_samples']
+    seed = config['seed']
+    gpus = config['gpus']
+    latent_dim = config['latent_dim']
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = str(args['gpus'])
-    ### Create output dir
-    os.makedirs(args['output_dir'], exist_ok=True)
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(gpus)
+    use_cuda = torch.cuda.is_available()
 
     ### Set the seeds. Default: 42
-    np.random.seed(args['seed'])
-    torch.manual_seed(args['seed'])
-    torch.cuda.manual_seed_all(args['seed'])
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
-    model = torch.load(args['output_dir'] + 'model.pt')
-    use_cuda = torch.cuda.is_available()
+    model = torch.load(os.path.join(output_dir, 'model.pt'))
+
+    device_gpu = None
     if use_cuda:
         dev_gpu = "cuda"
         device_gpu = torch.device(dev_gpu)
         model.to(device_gpu)
 
-    if os.path.exists(args['data_output_dir'] + 'data.pkl'):
-        x_train, x_test = pickle.load(open(args['data_output_dir'] + 'data.pkl', 'rb'))
+    if os.path.exists(os.path.join(output_dir, 'data.pkl')):
+        x_train, x_test = pickle.load(open(os.path.join(output_dir, 'data.pkl', 'rb')))
     else:
         print("Training Data Doesn't exist.")
         exit(0)
+        return
 
     print(x_train.shape)
-    x_train_sampled = x_train[np.random.randint(x_train.shape[0], size=args['num_samples']), :]
+    x_train_sampled = x_train[np.random.randint(x_train.shape[0], size=num_samples), :]
     print(x_train_sampled.shape)
     x_train = torch.from_numpy(x_train_sampled)
     if use_cuda:
         x_train = x_train.to(device_gpu)
     xt = x_train.float()
-    T = pickle.load(open(args['output_dir'] + 't-val.pkl', 'rb'))
+    T = pickle.load(open(os.path.join(output_dir, 't-val.pkl'), 'rb'))
     print("T", T)
     model.eval()
-    assert (args['num_samples'] == xt.shape[0])
+    assert (num_samples == xt.shape[0])
     with torch.no_grad():
         # compute the mu and logarithmic variance of the original data's z.
         mu, logvar = model.encode(xt.view(-1, xt.shape[1]))
@@ -45,10 +52,10 @@ def gen_sample():
         num_samples_in_one_go = xt.shape[0]
 
         ### For each generated sample, compute these values.
-        tgt_count = args['num_samples']
+        tgt_count = num_samples
         all_tensor_out_taken = []
         while tgt_count > 0:
-            m = torch.randn(num_samples_in_one_go, args['latent_dim'])  ## Sample z?
+            m = torch.randn(num_samples_in_one_go, latent_dim)  ## Sample z?
             if use_cuda:
                 m = m.to(device_gpu).float()
             rep_z = m * std + mu
@@ -87,9 +94,11 @@ def gen_sample():
             tensor_out_taken = x_cap[accept_mask]
             tgt_count -= len(tensor_out_taken)
             all_tensor_out_taken.append(tensor_out_taken)
-        tensor_out = torch.cat(all_tensor_out_taken)[:args['num_samples']]
+        tensor_out = torch.cat(all_tensor_out_taken)[:num_samples]
         out = tensor_out.cpu().detach().numpy()
-        transformed_output = transform_reverse(out, args['data_output_dir'])
+        transformed_output = transform_reverse(out, output_dir)
         print("GENERATED NUM OF SAMPLES", transformed_output.shape[0])
-        transformed_output.to_csv(os.path.join(args['output_dir'], 'samples_{}.csv'.format(args['num_samples'])), index=False)
-        print("Sample has been saved in {}".format(os.path.join(args['output_dir'], 'samples_{}.csv'.format(args['num_samples']))))
+
+        sample_file_path = os.path.join(output_dir, 'samples_{}.csv'.format(num_samples))
+        transformed_output.to_csv(sample_file_path, index=False)
+        print("Sample has been saved in {}".format(sample_file_path))

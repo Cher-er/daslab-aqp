@@ -4,8 +4,10 @@ from config.config import VAEConfig
 
 def execute_avg(data_path):
     config = VAEConfig().get_config()
+    sql_file = config['sql_file']
+
     data = pd.read_csv(data_path, delimiter=",")
-    with open(config["sql_file"]) as f:
+    with open(sql_file) as f:
         sqls = f.readlines()
 
     results = []

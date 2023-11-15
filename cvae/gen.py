@@ -21,9 +21,12 @@ def gen():
 
     config = CVAEConfig().get_config()
     output_dir = config["output_dir"]
+    dataset = config["dataset"]
     iter_bar = config["iter_bar"]
+    batch_size = config["batch_size"]
+    num_imputations = config["num_imputations"]
 
-    with open(join(config["output_dir"], "{}_info.json".format(config["model_name"]))) as f:
+    with open(join(output_dir, "{}_info.json".format(dataset))) as f:
         dataset_info = json.load(f)
     columns = dataset_info["columns"]
     cat_cols = dataset_info["cat_cols"]
@@ -44,16 +47,14 @@ def gen():
     if use_cuda:
         model = model.cuda()
 
-    batch_size = networks['batch_size']
     num_workers = 0
 
-
-    raw_data = np.loadtxt(join(config["output_dir"], "{}_masked.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
+    raw_data = np.loadtxt(join(output_dir, "{}_masked.tsv".format(dataset)), delimiter='\t', skiprows=1)
     raw_data = torch.from_numpy(raw_data).float()
     norm_mean, norm_std = compute_normalization(raw_data, one_hot_max_sizes)
     norm_std = torch.max(norm_std, torch.tensor(1e-9))
 
-    sample_data = np.loadtxt(join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"])), delimiter='\t', skiprows=1)
+    sample_data = np.loadtxt(join(output_dir, "{}_masked_for_sql.tsv".format(dataset)), delimiter='\t', skiprows=1)
     sample_data = torch.from_numpy(sample_data).float()
     data = (sample_data - norm_mean[None]) / norm_std[None]
 
@@ -65,7 +66,7 @@ def gen():
 
     # prepare the store for the imputations
     results = []
-    for i in range(config["num_imputations"]):
+    for i in range(num_imputations):
         results.append([])
 
     iterator = dataloader
@@ -91,7 +92,7 @@ def gen():
         with torch.no_grad():
             samples_params = model.generate_samples_params(batch_extended,
                                                            mask_extended,
-                                                           config["num_imputations"])
+                                                           num_imputations)
             samples_params = samples_params[:batch.shape[0]]
 
         # make a copy of batch with zeroed missing values
@@ -101,7 +102,7 @@ def gen():
 
         # impute samples from the generative distributions into the data
         # and save it to the results
-        for i in range(config["num_imputations"]):
+        for i in range(num_imputations):
             sample_params = samples_params[:, i]
             sample = networks['sampler'](sample_params)
             sample[~mask] = 0
@@ -133,6 +134,6 @@ def gen():
             col_value = list_of_key[col][list_of_value[col].index(one_hot)]
             result_df.iloc[j, result_df.columns.get_loc(col)] = col_value
 
-    result_df.to_csv(join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"])), header=columns, index=False, sep='\t')
-    print("Out file has been saved in {}".format(
-        join(config["output_dir"], "{}_imputed.tsv".format(config["model_name"]))))
+    imputed_file_path = join(output_dir, "{}_imputed.tsv".format(dataset))
+    result_df.to_csv(imputed_file_path, header=columns, index=False, sep='\t')
+    print("Out file has been saved in {}".format(imputed_file_path))

@@ -1,6 +1,6 @@
 {
   "vae": {
-    "all": false,
+    "all": true,
     "train": false,
     "gen": false,
     "aqp": false,
@@ -8,11 +8,11 @@
     "measure": false
   },
   "cvae": {
-    "all": true,
+    "all": false,
     "train": false,
-    "gen": false,
-    "aqp": false,
-    "ground_truth": false,
-    "measure": false
+    "gen": true,
+    "aqp": true,
+    "ground_truth": true,
+    "measure": true
   }
 }

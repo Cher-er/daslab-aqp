@@ -6,10 +6,14 @@ import json
 
 def gen_masked_samples():
     config = CVAEConfig().get_config()
-    with open(config["sql_file"]) as f:
+    output_dir = config['output_dir']
+    sql_file = config['sql_file']
+    dataset = config['dataset']
+
+    with open(sql_file) as f:
         sqls = f.readlines()
 
-    with open(os.path.join(config["output_dir"], "{}_info.json".format(config["model_name"]))) as f:
+    with open(os.path.join(output_dir, "{}_info.json".format(dataset))) as f:
         dataset_info = json.load(f)
 
     columns = dataset_info["columns"]
@@ -44,14 +48,17 @@ def gen_masked_samples():
         masked_datas.append(masked_data)
 
     masked_datas = pd.DataFrame(masked_datas)
-    masked_datas.to_csv(os.path.join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"])), sep='\t', na_rep="nan", header=columns, index=False)
-    print("The masked samples according to SQL have been saved in {}".format(os.path.join(config["output_dir"], "{}_masked_for_sql.tsv".format(config["model_name"]))))
+    masked_file_path = os.path.join(output_dir, "{}_masked_for_sql.tsv".format(dataset))
+    masked_datas.to_csv(masked_file_path, sep='\t', na_rep="nan", header=columns, index=False)
+    print("The masked samples according to SQL have been saved in {}".format(masked_file_path))
 
 
 def execute_avg(data_path, sep):
     config = CVAEConfig().get_config()
+    sql_file = config['sql_file']
+
     data = pd.read_csv(data_path, delimiter=sep)
-    with open(config["sql_file"]) as f:
+    with open(sql_file) as f:
         sqls = f.readlines()
 
     results = []

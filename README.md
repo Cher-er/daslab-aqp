@@ -1,11 +1,39 @@
+# 通用
+
+## 参数设置
+
+- 通用参数的设置在 config/common.json 中设置
+
+  - dataset：数据集名称，用于存储输出文件时的路径和文件名设置
+
+  - input_file：输入数据，即数据集的路径，一般需要分隔符为 `,` 的 csv文件，详见各模块的具体要求
+  - sql_file：SQL文件的路径，详见各模块的具体要求
+  - output_dir：输出文件的存放路径，一般会存放在 `output_dir/dataset/model_name/` 目录下
+
+
+
 # VAE
+
 ## 使用示例
 
 > Note：可以将 main.json 中的多个参数设为 true，程序会连续执行
 >
 > 若将 main.json 中某个模块的 all 参数设为 true，则相当于将其他所有参数设为 true
 
-1. 修改 config/main.json
+1. 修改 config/common.json
+
+   ```json
+   {
+     "model_name": "your_model_name",
+     "input_file": "your/dataset/file/path",
+     "sql_file": "your/sql/file/path",
+     "output_dir": "your/output/dir/path"
+   }
+   ```
+
+   
+
+2. 修改 config/main.json
 
    ```json
    {
@@ -17,15 +45,10 @@
 
    > 表示执行 VAE 的训练过程
 
-2. 修改 config/vae.json
+3. 修改 config/vae.json
 
    ```json
    {
-     "model_name": "flights",
-     "input_file": "your/dataset/file/path",
-     "sql_file": "your/sql/file/path",
-     "output_dir": "your/output/dir/path",
-     "data_output_dir": "your/output/dir/path",
      "batch_size": 64,
      "latent_dim": 64,
      "neuron_list": 200,
@@ -37,12 +60,12 @@
      "gpus": "[1,0]"
    }
    ```
-   
+
    > 若主机只有一块GPU，则设置为 `"gpus": "0"`；
    >
    > 该案例有两块GPU，且优先使用第二块GPU（第一块GPU显存不足），因此设置为 `"gpus": "[1,0]"`
-   
-3. 运行 `do.py` 脚本
+
+4. 运行 `do.py` 脚本
 
    ```sh
    python do.py
@@ -50,7 +73,7 @@
 
    执行成功后，在 your/output/dir/path 目录下会生成 model.pt 文件，即 VAE 模型的参数
 
-4. 修改 config/main.json
+5. 修改 config/main.json
 
    ```json
    {
@@ -62,15 +85,15 @@
 
    > 表示执行 VAE 的生成过程
 
-5. 运行 do.py 脚本
+6. 运行 do.py 脚本
 
    ```sh
    python do.py
    ```
 
    执行成功后，在 your/output/dir/path  目录下会生成 samples_1000.csv 文件，后缀表示样本数量，由 config/vae.json 中的参数 num_samples 控制。
-   
-6. 修改 config/main.json
+
+7. 修改 config/main.json
 
    ```sql
    {
@@ -88,7 +111,7 @@
    >
    > 最后，比较两个结果，计算 sMAPE 指标
 
-7. 运行 do.py 脚本
+8. 运行 do.py 脚本
 
    ```sh
    python do.py
@@ -100,7 +123,9 @@
 
 ## 关于数据集
 
-- 数据集文件需要带表头，且属性名需加后缀 `_n` 或 `_c`，表示数值列（numerical columns）或分类列（categorical columns）。
+- 数据集文件需要带表头，分隔符为 `,`
+
+- 属性名需加后缀 `_n` 或 `_c`，表示数值列（numerical columns）或分类列（categorical columns）。
 
 - 以下为一个合法数据集的前五行示例：
 
@@ -143,20 +168,26 @@
 
 ## 参数设置
 
-- model_name：随便写
-- input_file：数据集路径
-- sql_file：要执行的SQL语句
-- output_dir：输出文件路径
-- data_output_dir：输出文件路径
-- batch_size：神经网络训练过程中的批处理大小
-- latent_dim：控制神经网络结构
-- neuron_list：控制神经网络结构
-- epochs：神经网络训练次数
-- log_interval：本意应该是控制模型训练时的日志输出间隔，但目前代码没用到
-- rejection
-- num_samples：生成数据的样本数量
-- seed：随机种子（设置numpy和torch模块的随机种子）
-- gpus：配置GPU
+- VAE 模型的参数在 config/vae.json 文件中设置：
+
+  - batch_size：神经网络训练过程中的批处理大小
+
+  - latent_dim：控制神经网络结构
+
+  - neuron_list：控制神经网络结构
+
+  - epochs：神经网络训练次数
+
+  - log_interval：本意应该是控制模型训练时的日志输出间隔，但目前代码没用到
+
+  - rejection
+
+  - num_samples：生成数据的样本数量
+
+  - seed：随机种子（设置numpy和torch模块的随机种子）
+
+  - gpus：配置GPU
+
 
 
 
