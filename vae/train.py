@@ -11,7 +11,6 @@ def train_vae():
     config = VAEConfig().get_config()
     input_file = config['input_file']
     output_dir = config['output_dir']
-    gpus = config['gpus']
     seed = config['seed']
     batch_size = config['batch_size']
     epochs = config['epochs']
@@ -20,7 +19,6 @@ def train_vae():
     neuron_list = config['neuron_list']
     rejection = config['rejection']
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = gpus
     use_cuda = torch.cuda.is_available()
     print("[use_cuda]: ", use_cuda)
 

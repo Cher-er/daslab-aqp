@@ -34,6 +34,7 @@ class VAEConfig(CommonConfig):
         self.config.update(get_config("vae.json"))
         self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "vae")
         os.makedirs(self.config['output_dir'], exist_ok=True)
+        os.environ["CUDA_VISIBLE_DEVICES"] = self.config['gpus']
 
 
 @Singleton
@@ -43,3 +44,4 @@ class CVAEConfig(CommonConfig):
         self.config.update(get_config("cvae.json"))
         self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "cvae")
         os.makedirs(self.config['output_dir'], exist_ok=True)
+        os.environ["CUDA_VISIBLE_DEVICES"] = self.config['gpus']

@@ -8,10 +8,8 @@ def gen_sample():
     output_dir = config['output_dir']
     num_samples = config['num_samples']
     seed = config['seed']
-    gpus = config['gpus']
     latent_dim = config['latent_dim']
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = str(gpus)
     use_cuda = torch.cuda.is_available()
 
     ### Set the seeds. Default: 42

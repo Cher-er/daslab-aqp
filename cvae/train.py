@@ -31,9 +31,6 @@ def train():
     validation_ratio = config["validation_ratio"]
     validations_per_epoch = config["validations_per_epoch"]
     validation_iwae_num_samples = config["validation_iwae_num_samples"]
-    gpus = config["gpus"]
-
-    os.environ["CUDA_VISIBLE_DEVICES"] = gpus
 
     with open(join(output_dir, "{}_info.json".format(dataset))) as f:
         dataset_info = json.load(f)
@@ -49,6 +46,7 @@ def train():
 
     # Default parameters which are not supposed to be changed from user interface
     use_cuda = torch.cuda.is_available()
+    print("[use_cuda]:", use_cuda)
 
     # Non-zero number of workers cause nasty warnings because of some bug in
     # multiprocess library. It might be fixed now, but anyway there is no need
@@ -68,6 +66,7 @@ def train():
     )
     if use_cuda:
         model = model.cuda()
+        print("Model to GPU")
     optimizer = networks['optimizer'](model.parameters())
     batch_size = networks['batch_size']
     mask_generator = networks['mask_generator']
