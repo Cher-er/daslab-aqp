@@ -354,7 +354,7 @@ def train(model, optimizer, epoch, x_train, log_interval, B, org_input_dim, reje
     for step in range(nsteps):
         lb = step*B
         ub = lb+ min(B, N-lb)
-        data = Variable(xtr[lb:ub].clone.detach().cuda())
+        data = Variable(xtr[lb:ub].clone().detach().cuda())
         optimizer.zero_grad()
         data, recon_batch, mu, logvar = model(data, epoch, rejection)
         loss = loss_function(recon_batch, data, mu, logvar,org_input_dim)
