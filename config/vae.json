@@ -8,5 +8,5 @@
   "rejection": 0,
   "num_samples": 100000,
   "seed": 42,
-  "gpus": "1,0"
+  "gpus": "0"
 }
