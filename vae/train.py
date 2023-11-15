@@ -67,7 +67,8 @@ def train_vae():
     if use_cuda:
         dev_gpu = "cuda"  ## Yes, it uses a GPU.
         device_gpu = torch.device(dev_gpu)
-        model.to(device_gpu)
+        # model.to(device_gpu)
+        model = torch.nn.DataParallel(model)
         print("Model to GPU")
         x_train = torch.from_numpy(x_train).to(device_gpu)
         # x_test = torch.from_numpy(x_test).to(device_gpu)
