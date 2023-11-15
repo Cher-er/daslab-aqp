@@ -20,7 +20,9 @@ def train_vae():
     neuron_list = config['neuron_list']
     rejection = config['rejection']
 
-    # os.environ["CUDA_VISIBLE_DEVICES"] = gpus
+    use_cuda = torch.cuda.is_available()
+    print("[use_cuda]: ", use_cuda)
+    os.environ["CUDA_VISIBLE_DEVICES"] = gpus
     use_cuda = torch.cuda.is_available()
     print("[use_cuda]: ", use_cuda)
 
