@@ -28,7 +28,7 @@ def gen_sample():
         model.to(device_gpu)
 
     if os.path.exists(os.path.join(output_dir, 'data.pkl')):
-        x_train, x_test = pickle.load(open(os.path.join(output_dir, 'data.pkl', 'rb')))
+        x_train, x_test = pickle.load(open(os.path.join(output_dir, 'data.pkl'), 'rb'))
     else:
         print("Training Data Doesn't exist.")
         exit(0)
