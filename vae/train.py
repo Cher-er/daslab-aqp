@@ -70,7 +70,7 @@ def train_vae():
         # model.to(device_gpu)
         model = torch.nn.DataParallel(model)
         print("Model to GPU")
-        x_train = torch.from_numpy(x_train)
+        # x_train = torch.from_numpy(x_train)
         x_train = torch.from_numpy(x_train).to(device_gpu)
         # x_test = torch.from_numpy(x_test).to(device_gpu)
 
