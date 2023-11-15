@@ -22,6 +22,7 @@ def train_vae():
 
     os.environ["CUDA_VISIBLE_DEVICES"] = gpus
     use_cuda = torch.cuda.is_available()
+    print("[use_cuda]: ", use_cuda)
 
     ### Set the seeds. Default: 42
     np.random.seed(seed)
