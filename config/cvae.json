@@ -3,7 +3,7 @@
   "mask_r": 0.5,
   "random_seed": 42,
   "verbose": true,
-  "iter_bar": false,
+  "iter_bar": true,
   "num_imputations": 10,
   "batch_size": 64,
   "epochs": 10,
