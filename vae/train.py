@@ -65,7 +65,7 @@ def train_vae():
     model = VAE(x_train.shape[1], latent_dim, neuron_list)
 
     if use_cuda:
-        dev_gpu = "cuda:1"  ## Yes, it uses a GPU.
+        dev_gpu = "cuda:0"  ## Yes, it uses a GPU.
         device_gpu = torch.device(dev_gpu)
         # model.to(device_gpu)
         model = torch.nn.DataParallel(model)
