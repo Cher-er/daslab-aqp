@@ -12,6 +12,8 @@
 
 
 
+
+
 # VAE
 
 ## 使用示例
@@ -57,13 +59,13 @@
      "rejection": 0,
      "num_samples": 10000,
      "seed": 42,
-     "gpus": "[1,0]"
+     "gpus": "0"
    }
    ```
 
    > 若主机只有一块GPU，则设置为 `"gpus": "0"`；
    >
-   > 该案例有两块GPU，且优先使用第二块GPU（第一块GPU显存不足），因此设置为 `"gpus": "[1,0]"`
+   > 若主机有多块GPU（且希望程序运行时使用多块GPU），例如有2块GPU，则设置为 `"gpus": "0,1"` 或 `"gpus": "1,0"`，其中第一个位置上的GPU作为主GPU。
 
 4. 运行 `do.py` 脚本
 
@@ -190,19 +192,20 @@
 
 
 
-
 ## 输出文件
-- output_dir/model_state: 保存模型训练过程中的中间状态（每10个epoch及最后一个epoch保存一次）
-- output_dir/loss.pkl: 保存模型训练过程中的所有损失值（每10个epoch及最后一个epoch保存一次）
-- output_dir/t-val.pkl: 保存t值（每10个epoch及最后一个epoch保存一次）
-- output_dir/time_taken.pkl: 保存模型训练所用时间（每10个epoch及最后一个epoch保存一次）
-- output_dir/loss.png: 保存损失值变化的折线图（每10个epoch及最后一个epoch保存一次）
-- output_dir/model.pt: 保存模型训练过程中的损失值最低的模型参数
-- output_dir/samples_xxx.csv: 保存模型生成的样本数据
-- output_dir/samples_xxx_aqp.csv: 保存AQP结果
-- output_dir/samples_xxx_truth.csv: 保存精确查询结果
-- data_output_dir/data.pkl: 读取数据后，存储训练集、测试集
-- data_output_dir/exp_info: 存储数据集的某些统计信息
+
+- model_state：保存模型训练过程中的中间状态（每10个epoch及最后一个epoch保存一次）
+- loss.pkl：保存模型训练过程中的所有损失值（每10个epoch及最后一个epoch保存一次）
+- t-val.pkl：保存t值（每10个epoch及最后一个epoch保存一次）
+- time_taken.pkl：保存模型训练所用时间（每10个epoch及最后一个epoch保存一次）
+- loss.png：保存损失值变化的折线图（每10个epoch及最后一个epoch保存一次）
+- model.pt：保存模型训练过程中的损失值最低的模型参数
+- samples_xxx.csv：保存模型生成的样本数据
+- samples_xxx_aqp.csv：保存AQP结果
+- samples_xxx_truth.csv：保存精确查询结果
+- samples_xxx_measure.csv：精确查询与AQP的对比结果
+- data.pkl：读取数据后，存储训练集、测试集
+- exp_info：存储数据集的某些统计信息
 
 > 如果数据集发生变化，需要重新训练模型，必须删除 model_state 文件（建议删除所有输出文件）
 
@@ -214,3 +217,77 @@
 2. vae/train.py中，没有使用测试集。
 3. config/vae.json中，参数model_name的作用未知。
 4. config/vae.json中，参数rejection的作用未知。
+
+
+
+
+
+# CVAE
+
+## 使用示例
+
+- CVAE 的使用方法和 VAE 类似，可参考上一节
+
+
+
+## 关于数据集
+
+- CVAE 对于数据集的格式要求与 VAE 类似（但不要求用逗号分隔），可参考上一节
+
+
+
+## 关于SQL
+
+- CVAE 对于SQL语句的格式要求与 VAE 类似，可参考上一节
+
+
+
+## 参数设置
+
+- CVAE 模型的参数在 config/cvae.json 文件中设置：
+  - csv_separator：数据集所使用的分隔符
+
+  - mask_r：将指定比例的数据集进行 stratified masking
+
+  - random_seed：随机种子
+
+  - verbose：是否输出日志信息
+
+  - iter_bar：是否显示进度条（后台执行脚本时不建议开启）
+
+  - num_imputations：针对每条SQL语句生成样本的数量
+
+  - batch_size：神经网络训练过程中的批处理大小
+
+  - epochs：神经网络训练次数
+
+  - validation_ratio
+
+  - validation_iwae_num_samples
+
+  - validations_per_epoch
+
+  - use_last_checkpoint
+
+  - gpus：配置GPU
+
+
+
+## 输出文件
+
+- model.pth：CVAE模型参数
+
+- flights_original_data.tsv：处理后的原数据集（独热码）
+- flights_masked.tsv：经过 stratified masking 后的数据集
+- flights_info.json：记录数据集的某些信息
+- flights_masked_for_sql.tsv：根据SQL语句生成的数据集
+- flights_imputed.tsv：通过模型将 flights_masked_for_sql.tsv 中缺失的数据补充后的数据集
+- samples_XXx_truth.tsv：精确查询结果（XX 由 num_imputations 决定）
+- samples_XXx_aqp.tsv：AQP查询结果（XX 由 num_imputations 决定）
+- samples_XXx_measure.tsv：精确查询与AQP的对比结果
+
+
+
+## 问题
+
+- 目前模型训练的输入数据是在完整数据集上随机挑选一定比例进行 stratified masking，是否与原论文有出入？
