@@ -45,3 +45,12 @@ class CVAEConfig(CommonConfig):
         self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "cvae")
         os.makedirs(self.config['output_dir'], exist_ok=True)
         os.environ["CUDA_VISIBLE_DEVICES"] = self.config['gpus']
+
+
+@Singleton
+class DeepDBConfig(CommonConfig):
+    def __init__(self):
+        CommonConfig.__init__(self)
+        self.config.update(get_config("deepdb.json"))
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "cvae")
+        os.makedirs(self.config['output_dir'], exist_ok=True)
