@@ -36,6 +36,8 @@
 
    > brotli-python, bzip2, certifi, cffi, charset-normalizer, cpuonly, cryptography, ffmpeg, filelock, gmp, gmpy2, gnutls, idna, jinja2, lame, libiconv, libidn2, libjpeg-turbo, libtasn1, libunistring, llvm-openmp, markupsafe, mpc, mpfr, mpmath, nettle, networkx, openh264, pycparser, pyopenssl, pysocks, pytorch, pytorch-mutex, pyyaml, requests, sympy, torchaudio, torchvision, typing_extensions, urllib3, yaml
 
+   `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia`（Linux，Conda，Python，CUDA11.8）
+
 7. `conda install tqdm`
 
 
