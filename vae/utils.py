@@ -15,17 +15,15 @@ def execute_avg(data_path):
     for sql in sqls:
         data_c = data.copy()
         sql = sql.split(";")[0]
-        print(sql)
-        print(re.split(re.compile('\bSELECT\b', flags=re.IGNORECASE), sql))
-        agg = re.split(re.compile('\bSELECT\b', flags=re.IGNORECASE), sql)[1]
-        agg = re.split(re.compile('\bFROM\b', flags=re.IGNORECASE), agg)[0].strip()
+        agg = re.split(re.compile(r'\bSELECT\b', re.IGNORECASE), sql)[1]
+        agg = re.split(re.compile(r'\bFROM\b', re.IGNORECASE), agg)[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
-        where = re.split(re.compile('\bWHERE\b', flags=re.IGNORECASE), sql)[1].strip()
+        where = re.split(re.compile(r'\bWHERE\b', re.IGNORECASE), sql)[1].strip()
         if "(" in where:
             where = where.split("(")[1]
             where = where.split(")")[0].strip()
         if "AND" in where or "and" in where:
-            predicates = re.split(re.compile('\bAND\b', flags=re.IGNORECASE), where)
+            predicates = re.split(re.compile(r'\bAND\b', re.IGNORECASE), where)
             for n, predicate in enumerate(predicates):
                 predicates[n] = predicate.strip()
         else:
