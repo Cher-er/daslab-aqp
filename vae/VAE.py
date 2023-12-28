@@ -120,7 +120,7 @@ def transform_forward(args, df, num_cols, cat_cols, encoding_type):
     print("Completed min-max Normalization")
     #store all the info to a pickle file
     exp_info = ExpInfo(args, min_map, max_map,cat_cols, num_cols, encoding_type, col_info)
-    write_pickle(exp_info.output_dir+"exp_info", exp_info)
+    write_pickle(os.path.join(exp_info.output_dir, "exp_info"), exp_info)
 
     #now convert each tuple into this real-valued vector
     np_in = np.zeros((df.shape[0],si)).astype(float)
