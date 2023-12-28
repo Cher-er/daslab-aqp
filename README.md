@@ -111,6 +111,8 @@
 
    执行成功后，在 your/output/dir/path 目录下会生成 model.pt 文件，即 VAE 模型的参数
 
+   > 使用CPU版本的Pytorch时，此处可能会报错，请自行修改源代码
+
 5. 修改 config/main.json
 
    ```json
