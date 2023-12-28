@@ -2,8 +2,8 @@ import json
 import os
 
 import sampling.ground_truth
-import sampling.random_sampling
-import sampling.stratified_sampling
+import sampling.sampling
+import sampling.measure
 
 import vae.train
 import vae.gen
@@ -23,8 +23,10 @@ if __name__ == '__main__':
 
     if args['sampling']['ground_truth']:
         sampling.ground_truth.exact()
-    if args['sampling']['random_sampling']:
-        sampling.random_sampling.exact()
+    if args['sampling']['sampling']:
+        sampling.sampling.aqp()
+    if args['sampling']['measure']:
+        sampling.measure.measure()
 
     if args['vae']['all']:
         vae.train.train_vae()

@@ -6,7 +6,18 @@ import os
 from config.config import SamplingConfig
 
 
-def exact():
+def aqp():
+    config = SamplingConfig().get_config()
+    method = config['method']
+    if method == 'random':
+        random_sampling()
+    elif method == 'stratified':
+        stratified_sampling()
+    else:
+        print("Unknown sampling method")
+
+
+def random_sampling():
     config = SamplingConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
@@ -101,3 +112,7 @@ def exact():
 
     cur.close()
     conn.close()
+
+
+def stratified_sampling():
+    pass
