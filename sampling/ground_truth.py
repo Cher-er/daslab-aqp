@@ -26,9 +26,12 @@ def exact():
         record = cur.fetchone()
         results.append(record)
 
-    with open(os.path.join(output_dir, 'ground_truth.csv'), 'w') as f:
+    output_file = os.path.join(output_dir, 'ground_truth.csv')
+    with open(output_file, 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results)
+
+    print(f"Ground truth has been saved in {output_file}")
 
     cur.close()
     conn.close()

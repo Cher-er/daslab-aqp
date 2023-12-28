@@ -14,6 +14,34 @@
 
 
 
+## 环境搭建
+
+1. `conda create -n daslab-aqp python=3.8`
+
+2. `conda activate daslab-aqp`
+
+3. `conda install psycopg2`
+
+   > krb5, libedit, libpq, psycopg2
+
+4. `conda install pandas`
+
+   > blas, bottleneck, intel-openmp, mkl, mkl-service, mkl_fft, mkl_random, numexpr, numpy, numpy-base, pandas, python-dateutil, python-tzdata, pytz, six, tbb
+
+5. `conda install matplotlib`
+
+   > brotli, brotli-bin, contourpy, cycler, cyrus-sasl, dbus, expat, fontconfig, fonttools, freetype, giflib, glib, gst-plugins-base, gstreamer, icu, importlib_resourc~, jpeg, kiwisolver, lcms2, lerc, libbrotlicommon, libbrotlidec, libbrotlienc, libclang, libclang13, libcups, libdeflate, libllvm14, libpng, libtiff, libuuid, libwebp, libwebp-base, libxcb, libxkbcommon, libxml2, lz4-c, matplotlib, matplotlib-base, munkres, mysql, openjpeg, packaging, pcre, pillow, ply, pyparsing, pyqt, pyqt5-sip, qt-main, sip, tomli, tornado, zipp, zstd
+
+6. `conda install pytorch torchvision torchaudio cpuonly -c pytorch`（Linux，Conda，Python，CPU）
+
+   > brotli-python, bzip2, certifi, cffi, charset-normalizer, cpuonly, cryptography, ffmpeg, filelock, gmp, gmpy2, gnutls, idna, jinja2, lame, libiconv, libidn2, libjpeg-turbo, libtasn1, libunistring, llvm-openmp, markupsafe, mpc, mpfr, mpmath, nettle, networkx, openh264, pycparser, pyopenssl, pysocks, pytorch, pytorch-mutex, pyyaml, requests, sympy, torchaudio, torchvision, typing_extensions, urllib3, yaml
+
+7. `conda install tqdm`
+
+
+
+
+
 # Sampling
 
 

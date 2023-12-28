@@ -71,10 +71,13 @@ def exact_count():
                 sample_df = sample_df[sample_df[attr] == val]
         results.append(sample_df.shape[0] * (100 / sample_size))
 
-    with open(os.path.join(output_dir, f'random_sampling_{sample_size}.csv'), 'w') as f:
+    output_file = os.path.join(output_dir, f'random_sampling_{sample_size}.csv')
+    with open(output_file, 'w') as f:
         writer = csv.writer(f)
         for result in results:
             writer.writerow([result])
+
+    print(f"Random sampling of {sample_size} results has been saved in {output_file}")
 
     cur.close()
     conn.close()
