@@ -6,7 +6,7 @@ import os
 from config.config import SamplingConfig
 
 
-def exact_count():
+def exact():
     config = SamplingConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
@@ -36,8 +36,10 @@ def exact_count():
 
     results = []
     for command in commands:
-        aggregate = re.split(re.compile(r'\bSELECT\b'), command)[0].strip()
-        print(aggregate)
+        pattern_count = re.compile(r'^select\s+count', re.IGNORECASE)
+        if pattern_count.match(command):
+            agg = "count"
+            print("SQL is COUNT")
         sample_df = pd.DataFrame(sample, columns=columns)
         command = command.split(';')[0]
         pattern_1 = re.compile(r'\bWHERE\b', flags=re.IGNORECASE)
@@ -69,7 +71,8 @@ def exact_count():
                     val = val.replace("'", "")
                     val = val.replace('"', "")
                 sample_df = sample_df[sample_df[attr] == val]
-        results.append(sample_df.shape[0] * (100 / sample_size))
+        if agg == "count":
+            results.append(sample_df.shape[0] * (100 / sample_size))
 
     output_file = os.path.join(output_dir, f'random_sampling_{sample_size}.csv')
     with open(output_file, 'w') as f:

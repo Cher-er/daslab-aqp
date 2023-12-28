@@ -24,7 +24,7 @@ if __name__ == '__main__':
     if args['sampling']['ground_truth']:
         sampling.ground_truth.exact()
     if args['sampling']['random_sampling']:
-        sampling.random_sampling.exact_count()
+        sampling.random_sampling.exact()
 
     if args['vae']['all']:
         vae.train.train_vae()
