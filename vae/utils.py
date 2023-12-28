@@ -15,6 +15,8 @@ def execute_avg(data_path):
     for sql in sqls:
         data_c = data.copy()
         sql = sql.split(";")[0]
+        print(sql)
+        print(re.split(re.compile('\bSELECT\b', re.IGNORECASE), sql))
         agg = re.split(re.compile('\bSELECT\b', re.IGNORECASE), sql)[1]
         agg = re.split(re.compile('\bFROM\b', re.IGNORECASE), agg)[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
