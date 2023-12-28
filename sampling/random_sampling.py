@@ -89,7 +89,7 @@ def exact():
             match = re.search(r'SUM\(([^)]+)\)', command, re.IGNORECASE)
             if match:
                 target = match.group(1)
-                results.append(sample_df[target].sum * (100 / sample_size))
+                results.append(sample_df[target].sum() * (100 / sample_size))
 
     output_file = os.path.join(output_dir, f'random_sampling_{sample_size}.csv')
     with open(output_file, 'w') as f:
