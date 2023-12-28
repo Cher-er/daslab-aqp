@@ -16,8 +16,8 @@ from tqdm import tqdm
 class ExpInfo(object):
     def __init__(self, args, min_map, max_map, cat_cols, num_cols, encoding_type, col_infos):
     #The program dumps the model and synthetic dataset into these folders. create them if they do not exist
-        self.model_name = args['model_name']
-        self.output_dir = args['data_output_dir']
+        self.model_name = args['dataset']
+        self.output_dir = args['output_dir']
         os.makedirs(self.output_dir, exist_ok=True)
 
     #For each (numeric) column store the min max so that it could be normalized
