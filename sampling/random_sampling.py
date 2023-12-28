@@ -37,9 +37,16 @@ def exact():
     results = []
     for command in commands:
         pattern_count = re.compile(r'^select\s+count', re.IGNORECASE)
+        pattern_avg = re.compile(r'^select\s+avg', re.IGNORECASE)
+        pattern_sum = re.compile(r'^select\s+sum', re.IGNORECASE)
         if pattern_count.match(command):
             agg = "count"
-            print("SQL is COUNT")
+        elif pattern_avg.match(command):
+            agg = "avg"
+        elif pattern_sum.match(command):
+            agg = "sum"
+        else:
+            agg = "unknown"
         sample_df = pd.DataFrame(sample, columns=columns)
         command = command.split(';')[0]
         pattern_1 = re.compile(r'\bWHERE\b', flags=re.IGNORECASE)
@@ -73,6 +80,11 @@ def exact():
                 sample_df = sample_df[sample_df[attr] == val]
         if agg == "count":
             results.append(sample_df.shape[0] * (100 / sample_size))
+        elif agg == 'avg':
+            match = re.search(r'AVG\(([^)]+)\)', command, re.IGNORECASE)
+            if match:
+                target = match.group(1)
+                results.append(sample_df[target].mean())
 
     output_file = os.path.join(output_dir, f'random_sampling_{sample_size}.csv')
     with open(output_file, 'w') as f:
