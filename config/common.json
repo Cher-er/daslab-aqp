@@ -1,8 +1,8 @@
 {
   "dataset": "flights",
   "input_file": "/home/yc/dataset/flights/csv/flights_with_header/flights_with_header.csv",
-  "sql_file": "/home/yc/project/daslab-aqp/sql/flights_count_2/flights_count_2.sql",
-  "output_dir": "/home/yc/project/daslab-aqp/sql/flights_count_2",
+  "sql_file": "/home/yc/project/daslab-aqp/sql/flights_count_2/flights_avg_2.sql",
+  "output_dir": "/home/yc/project/daslab-aqp/sql/flights_avg_2",
   "pgsql": {
     "host":"localhost",
     "port": 5433,
