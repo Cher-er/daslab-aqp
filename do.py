@@ -1,6 +1,10 @@
 import json
 import os
 
+import sampling.ground_truth
+import sampling.random_sampling
+import sampling.stratified_sampling
+
 import vae.train
 import vae.gen
 import vae.aqp
@@ -16,6 +20,11 @@ import cvae.measure
 if __name__ == '__main__':
     with open(os.path.join(os.getcwd(), 'config', 'main.json')) as f:
         args = json.load(f)
+
+    if args['sampling']['ground_truth']:
+        sampling.ground_truth.exact()
+    if args['sampling']['random_sampling']:
+        sampling.random_sampling.exact_count()
 
     if args['vae']['all']:
         vae.train.train_vae()

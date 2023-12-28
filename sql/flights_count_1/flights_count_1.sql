@@ -1,0 +1,12 @@
+select count(*) from flights where year_date = 2000;
+select count(*) from flights where unique_carrier = '9E';
+select count(*) from flights where origin = 'MSP';
+select count(*) from flights where origin_state_abr = 'TX';
+select count(*) from flights where dest = 'BTV';
+select count(*) from flights where dest_state_abr = 'MO';
+select count(*) from flights where dep_delay > 500;
+select count(*) from flights where taxi_out > 100;
+select count(*) from flights where taxi_in < 3;
+select count(*) from flights where arr_delay < -20;
+select count(*) from flights where air_time > 400;
+select count(*) from flights where distance < 200;

@@ -1,4 +1,9 @@
 {
+  "sampling": {
+    "ground_truth": false,
+    "random_sampling": true,
+    "stratified_sampling": false
+  },
   "vae": {
     "all": false,
     "train": false,
@@ -8,7 +13,7 @@
     "measure": false
   },
   "cvae": {
-    "all": true,
+    "all": false,
     "train": false,
     "gen": false,
     "aqp": false,

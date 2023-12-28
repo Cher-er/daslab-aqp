@@ -28,6 +28,15 @@ class CommonConfig:
 
 
 @Singleton
+class SamplingConfig(CommonConfig):
+    def __init__(self):
+        CommonConfig.__init__(self)
+        self.config.update(get_config("sampling.json"))
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "sampling")
+        os.makedirs(self.config['output_dir'], exist_ok=True)
+
+
+@Singleton
 class VAEConfig(CommonConfig):
     def __init__(self):
         CommonConfig.__init__(self)
