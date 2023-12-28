@@ -8,7 +8,7 @@
 
   - input_file：输入数据，即数据集的路径，一般需要分隔符为 `,` 的 csv文件，详见各模块的具体要求
   - sql_file：SQL文件的路径，详见各模块的具体要求
-  - output_dir：输出文件的存放路径，一般会存放在 `output_dir/dataset/model_name/` 目录下
+  - output_dir：输出文件的存放路径，一般会存放在 `output_dir/model_name/` 目录下
 
 
 

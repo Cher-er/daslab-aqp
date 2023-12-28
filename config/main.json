@@ -1,7 +1,7 @@
 {
   "sampling": {
-    "ground_truth": false,
-    "random_sampling": true,
+    "ground_truth": true,
+    "random_sampling": false,
     "stratified_sampling": false
   },
   "vae": {

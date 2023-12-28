@@ -32,7 +32,7 @@ class SamplingConfig(CommonConfig):
     def __init__(self):
         CommonConfig.__init__(self)
         self.config.update(get_config("sampling.json"))
-        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "sampling")
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], "sampling")
         os.makedirs(self.config['output_dir'], exist_ok=True)
 
 
@@ -41,7 +41,7 @@ class VAEConfig(CommonConfig):
     def __init__(self):
         CommonConfig.__init__(self)
         self.config.update(get_config("vae.json"))
-        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "vae")
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], "vae")
         os.makedirs(self.config['output_dir'], exist_ok=True)
         os.environ["CUDA_VISIBLE_DEVICES"] = self.config['gpus']
 
@@ -51,6 +51,6 @@ class CVAEConfig(CommonConfig):
     def __init__(self):
         CommonConfig.__init__(self)
         self.config.update(get_config("cvae.json"))
-        self.config['output_dir'] = os.path.join(self.config["output_dir"], self.config["dataset"], "cvae")
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], "cvae")
         os.makedirs(self.config['output_dir'], exist_ok=True)
         os.environ["CUDA_VISIBLE_DEVICES"] = self.config['gpus']
