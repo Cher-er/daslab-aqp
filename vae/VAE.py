@@ -148,6 +148,7 @@ def transform_forward(args, df, num_cols, cat_cols, encoding_type):
 
 #transform_reverse: convert an encoding (hot_hot, hot_num, num_num) to input format
 def transform_reverse(pred, output_dir):
+    os.makedirs(os.path.join(output_dir, "exp_info"), exist_ok=True)
     exp_info = read_pickle(os.path.join(output_dir, "exp_info"))
     min_map = exp_info.get_min_map()
     max_map = exp_info.get_max_map()
