@@ -95,6 +95,8 @@ def gen_sample():
         tensor_out = torch.cat(all_tensor_out_taken)[:num_samples]
         out = tensor_out.cpu().detach().numpy()
         transformed_output = transform_reverse(out, output_dir)
+        print(type(transformed_output))
+        print(transformed_output)
         print("GENERATED NUM OF SAMPLES", transformed_output.shape[0])
 
         sample_file_path = os.path.join(output_dir, 'samples_{}.csv'.format(num_samples))
