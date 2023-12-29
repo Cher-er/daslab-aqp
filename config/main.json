@@ -9,7 +9,7 @@
     "train": false,
     "gen": false,
     "aqp": true,
-    "ground_truth": true,
+    "ground_truth": false,
     "measure": true
   },
   "cvae": {
