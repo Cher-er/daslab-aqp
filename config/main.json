@@ -1,16 +1,16 @@
 {
   "sampling": {
-    "ground_truth": true,
-    "sampling": true,
+    "ground_truth": false,
+    "sampling": false,
     "measure": false
   },
   "vae": {
     "all": false,
     "train": false,
     "gen": false,
-    "aqp": false,
-    "ground_truth": false,
-    "measure": false
+    "aqp": true,
+    "ground_truth": true,
+    "measure": true
   },
   "cvae": {
     "all": false,
