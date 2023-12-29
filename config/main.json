@@ -7,10 +7,10 @@
   "vae": {
     "all": false,
     "train": false,
-    "gen": true,
-    "aqp": false,
-    "ground_truth": false,
-    "measure": false
+    "gen": false,
+    "aqp": true,
+    "ground_truth": true,
+    "measure": true
   },
   "cvae": {
     "all": false,
