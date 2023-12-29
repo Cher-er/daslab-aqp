@@ -1,5 +1,5 @@
 schema = {
-    "year_date": "c",
+    "year_data": "c",
     "unique_carrier": "c",
     "origin": "c",
     "origin_state_abr": "c",
