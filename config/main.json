@@ -6,7 +6,7 @@
   },
   "vae": {
     "all": false,
-    "train": false,
+    "train": true,
     "gen": true,
     "aqp": false,
     "ground_truth": false,

@@ -153,7 +153,6 @@ def transform_reverse(pred, output_dir):
     max_map = exp_info.get_max_map()
     cat_cols = exp_info.get_cat_cols()
     num_cols = exp_info.get_num_cols()
-    encoding_type = exp_info.get_encoding_type()
     col_infos = exp_info.get_col_infos()
     
     all_columns = []
