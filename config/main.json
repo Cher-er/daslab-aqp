@@ -8,9 +8,9 @@
     "all": false,
     "train": false,
     "gen": false,
-    "aqp": true,
-    "ground_truth": false,
-    "measure": false
+    "aqp": false,
+    "ground_truth": true,
+    "measure": true
   },
   "cvae": {
     "all": false,
