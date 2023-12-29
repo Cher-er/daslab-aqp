@@ -59,6 +59,7 @@ def train_vae():
     if os.path.exists(os.path.join(output_dir, 'data.pkl')):
         x_train, x_test = pickle.load(open(os.path.join(output_dir, 'data.pkl'), 'rb'))
     else:
+        print(df)
         x_train, x_test = transform_forward(config, df, num_cols, cat_cols, encoding_type)
         pickle.dump((x_train, x_test), open(os.path.join(output_dir, 'data.pkl'), 'wb'), protocol=4)
     print("Train Shape: ", x_train.shape, "Test Shape", x_test.shape)
