@@ -1,6 +1,7 @@
 import pandas as pd
 from config.config import VAEConfig
 import re
+from schema import flights
 
 
 def execute_avg(data_path):
@@ -8,6 +9,8 @@ def execute_avg(data_path):
     sql_file = config['sql_file']
 
     data = pd.read_csv(data_path, delimiter=",")
+    columns = flights.schema.keys()
+    data.columns = columns
     with open(sql_file) as f:
         sqls = f.readlines()
 
