@@ -6,9 +6,9 @@
   },
   "vae": {
     "all": false,
-    "train": true,
-    "gen": true,
-    "aqp": false,
+    "train": false,
+    "gen": false,
+    "aqp": true,
     "ground_truth": false,
     "measure": false
   },
