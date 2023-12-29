@@ -11,6 +11,9 @@ def execute_avg(data_path):
     data = pd.read_csv(data_path, delimiter=",")
     columns = flights.schema.keys()
     data.columns = columns
+
+    print(data)
+
     with open(sql_file) as f:
         sqls = f.readlines()
 
@@ -42,7 +45,7 @@ def execute_avg(data_path):
             if col.endswith(('_c', '_n')):
                 col = col[:-2]
             data_c = data_c[data_c[col] == pre]
-        print(data_c)
+        # print(data_c)
 
         results.append(data_c[agg].mean())
 
