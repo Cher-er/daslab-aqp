@@ -4,6 +4,7 @@ import time
 from torch import optim
 import os
 from config.config import VAEConfig
+import schema.flights
 
 
 def train_vae():
@@ -43,8 +44,12 @@ def train_vae():
     print("Original", orig_df.shape)
     print("Sampled", df.shape)
     cols = df.columns
-    cat_cols = list(filter(lambda x: '_c' in x, cols))
-    num_cols = list(filter(lambda x: '_n' in x, cols))
+    cat_cols, num_cols = [], []
+    for k, v in schema.flights.schema.keys():
+        if v == "c":
+            cat_cols.append(k)
+        elif v == "n":
+            num_cols.append(k)
     org_input_dim = len(cat_cols) + len(num_cols)
 
     # hot_hot, num_num and hot_num three supported encoding type for categorical_numerical data
