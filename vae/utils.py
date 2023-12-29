@@ -42,6 +42,7 @@ def execute_avg(data_path):
             if col.endswith(('_c', '_n')):
                 col = col[:-2]
             data_c = data_c[data_c[col] == pre]
+        print(data_c)
 
         results.append(data_c[agg].mean())
 
