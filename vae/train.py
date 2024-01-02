@@ -43,7 +43,6 @@ def train_vae():
 
     print("Original", orig_df.shape)
     print("Sampled", df.shape)
-    cols = df.columns
     cat_cols, num_cols = [], []
     for k, v in schema.flights.schema.items():
         if v == "c":

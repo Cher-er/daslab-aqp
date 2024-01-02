@@ -6,6 +6,7 @@ import pandas as pd
 from config.config import CVAEConfig
 import torch
 import json
+import schema.flights
 
 
 def stratified_masking(data, r, cat_cols, num_cols):
@@ -32,8 +33,12 @@ def loader():
     csv_separator = CVAEConfig().get_config()["csv_separator"]
     data = pd.read_csv(input_file, sep=csv_separator)
     cols = data.columns
-    cat_cols = list(filter(lambda x: '_c' in x, cols))
-    num_cols = list(filter(lambda x: '_n' in x, cols))
+    cat_cols, num_cols = [], []
+    for k, v in schema.flights.schema.items():
+        if v == "c":
+            cat_cols.append(k)
+        elif v == "n":
+            num_cols.append(k)
     unique_values = []
     one_hot_map = {}
     for i, cat_col in enumerate(cat_cols):
