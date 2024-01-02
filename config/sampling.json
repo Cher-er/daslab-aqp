@@ -1,5 +1,4 @@
 {
   "method": "random",
-  "random_sampling_size": 0.1,
-  "stratified_sampling_K": 10
+  "random_sampling_size": 0.1
 }

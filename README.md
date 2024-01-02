@@ -165,12 +165,10 @@
 
 - 数据集文件需要带表头，分隔符为 `,`
 
-- 属性名需加后缀 `_n` 或 `_c`，表示数值列（numerical columns）或分类列（categorical columns）。
-
 - 以下为一个合法数据集的前五行示例：
 
   ```csv
-  year_data_c,unique_carrier_c,origin_c,origin_state_abr_c,dest_c,dest_state_abr_c,dep_delay_n,taxi_out_n,taxi_in_n,arr_delay_n,air_time_n,distance_n
+  year_data,unique_carrier,origin,origin_state_abr,dest,dest_state_abr,dep_delay,taxi_out,taxi_in,arr_delay,air_time,distance
   2001,AA,DFW,TX,MCI,MO,86.0,13.0,3.0,84.0,80.0,460.0
   2011,B6,JFK,NY,BTV,VT,-9.0,20.0,4.0,-16.0,44.0,267.0
   2013,US,PIT,PA,PHX,AZ,-11.0,13.0,5.0,-54.0,232.0,1814.0
@@ -183,25 +181,21 @@
 
 - 该模型只能处理 AVG查询
 
-- SQL语句中的关键字（如 SELECT、AVG 等）必须大写
-
-- SQL语句中的属性名必须加后缀 `_n` 或 `_c`，即属性名要和数据集中的属性名保持一致
-
 - SQL语句中，FROM后的表名没有实效，数据源是根据 `output_dir` 和 `num_samples` 找到的 `samples_XXX.csv` 文件
 
 - SQL语句中，聚合属性必须为数值列，谓词属性必须为分类列
 
 - SQL语句中，用单引号或双引号表示字符串
 
-- SQL语句中，等号必须写为 `=`，而非 `==`
-
 - SQL语句中，分号 `;` 不是必须的
+
+- SQL语句只支持 AND，不支持 OR
 
 - 以下为一个合法SQL文件的示例：
 
   ```sql
-  SELECT AVG(dep_delay_n) FROM flights WHERE year_data_c = 2001;
-  SELECT AVG(taxi_out_n) FROM flights WHERE (unique_carrier_c = 'AA' AND origin_c = 'DFW');
+  SELECT AVG(dep_delay) FROM flights WHERE year_data = 2001;
+  SELECT AVG(taxi_out) FROM flights WHERE (unique_carrier = 'AA' AND origin = 'DFW');
   ```
 
 
@@ -253,7 +247,6 @@
 
 1. vae/train.py中，是否需要sample(1000000)?
 2. vae/train.py中，没有使用测试集。
-3. config/vae.json中，参数model_name的作用未知。
 4. config/vae.json中，参数rejection的作用未知。
 
 
