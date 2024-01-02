@@ -14,15 +14,20 @@ with open('samples_10000_aqp.csv') as f:
     vae_10000_10 = np.array([line.strip() for line in f.readlines()]).astype(float)
     vae_10000_10 = np.abs(vae_10000_10 - ground_truth) / ground_truth
 
+with open('samples_10000_20_aqp.csv') as f:
+    vae_10000_20 = np.array([line.strip() for line in f.readlines()]).astype(float)
+    vae_10000_20 = np.abs(vae_10000_20 - ground_truth) / ground_truth
+
 with open('samples_100000_aqp.csv') as f:
     vae_100000_20 = np.array([line.strip() for line in f.readlines()]).astype(float)
     vae_100000_20 = np.abs(vae_100000_20 - ground_truth) / ground_truth
 
-bar_width = 0.3
+bar_width = 0.2
 
-plt.bar(x - bar_width, random_sampling_0_1, label='Random Sampling', alpha=0.7, width=bar_width)
-plt.bar(x, vae_10000_10, label='VAE_10000_10', alpha=0.7, width=bar_width)
-plt.bar(x + bar_width, vae_100000_20, label='VAE_100000_20', alpha=0.7, width=bar_width)
+plt.bar(x - bar_width*3/2, random_sampling_0_1, label='Random Sampling 0.1', alpha=0.7, width=bar_width)
+plt.bar(x - bar_width/2, vae_10000_10, label='VAE 10000_10', alpha=0.7, width=bar_width)
+plt.bar(x + bar_width/2, vae_10000_20, label='VAE 10000_20', alpha=0.7, width=bar_width)
+plt.bar(x + bar_width*3/2, vae_100000_20, label='VAE 100000_20', alpha=0.7, width=bar_width)
 
 plt.legend()
 
