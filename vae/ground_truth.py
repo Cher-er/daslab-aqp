@@ -9,7 +9,7 @@ def exact_avg():
     output_dir = config['output_dir']
 
     results = execute_avg(input_file)
-    truth_file_path = os.path.join(output_dir, 'samples_truth.csv')
+    truth_file_path = os.path.join(output_dir, 'ground_truth.csv')
     with open(truth_file_path, 'w') as f:
         for result in results:
             f.write(str(result) + "\n")

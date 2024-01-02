@@ -11,7 +11,7 @@ def measure():
     aqp_file_path = os.path.join(output_dir, 'samples_{}_aqp.csv'.format(config['num_samples']))
     aqp = pd.read_csv(aqp_file_path, header=None)
 
-    truth_file_path = os.path.join(output_dir, 'samples_truth.csv')
+    truth_file_path = os.path.join(output_dir, 'ground_truth.csv')
     truth = pd.read_csv(truth_file_path, header=None)
 
     smape = sMAPE(truth, aqp)
