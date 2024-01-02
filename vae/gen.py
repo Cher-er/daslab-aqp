@@ -10,6 +10,7 @@ def gen_sample():
     num_samples = config['num_samples']
     seed = config['seed']
     latent_dim = config['latent_dim']
+    epochs = config['epochs']
 
     use_cuda = torch.cuda.is_available()
 
@@ -99,6 +100,6 @@ def gen_sample():
         transformed_output = transformed_output[schema.flights.schema.keys()]
         print("GENERATED NUM OF SAMPLES", transformed_output.shape[0])
 
-        sample_file_path = os.path.join(output_dir, 'samples_{}.csv'.format(num_samples))
+        sample_file_path = os.path.join(output_dir, 'samples_{}_{}.csv'.format(num_samples, epochs))
         transformed_output.to_csv(sample_file_path, index=False)
         print("Sample has been saved in {}".format(sample_file_path))
