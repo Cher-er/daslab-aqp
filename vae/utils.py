@@ -35,8 +35,8 @@ def execute_avg(data_path):
         else:
             predicates = [where]
 
+        print(predicates)
         for predicate in predicates:
-            print(sql)
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
             if pre.isdigit():
