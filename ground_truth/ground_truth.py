@@ -33,16 +33,14 @@ def exact():
         task = progress.add_task("Processing...", total=len(commands))
         for command in commands:
             cur.execute(command)
-            record = cur.fetchone()[0]
+            record = float(cur.fetchone()[0])
             results.append(record)
-            print(results)
 
             command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
             command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
             cur.execute(command)
-            count = cur.fetchone()[0]
-            selectivity.append(float(count) / total)
-            print(selectivity)
+            count = float(cur.fetchone()[0])
+            selectivity.append(count / total)
 
             progress.update(task, advance=1)
 
