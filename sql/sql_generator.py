@@ -45,6 +45,9 @@ def gen():
         sql = f"SELECT {aggregate}({num_col}) from {dataset} where {cate_col} = {cate_col_value};"
         sqls.append(sql)
 
-    with open(os.path.join(output_dir, f"{dataset}_{aggregate}_{sql_num}.sql")) as f:
+    file_name = os.path.join(output_dir, f"{dataset}_{aggregate}_{sql_num}.sql")
+    with open(file_name, 'w') as f:
         for sql in sqls:
             f.write(sql + '\n')
+
+    print(f"[INFO] generated sql has been saved in {file_name}.")
