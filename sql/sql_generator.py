@@ -3,6 +3,7 @@ from schema import schema
 import pandas as pd
 import random
 import os
+from utils.utils import is_convertible_to_string
 
 
 def gen():
@@ -42,7 +43,10 @@ def gen():
         cate_col = cate_cols[random.randint(0, len(cate_cols) - 1)]
         cate_col_value = cate_unique_values[cate_col][random.randint(0, len(cate_unique_values[cate_col]) - 1)]
 
-        sql = f"SELECT {aggregate}({num_col}) from {dataset} where {cate_col} = {cate_col_value};"
+        if is_convertible_to_string(cate_col_value):
+            sql = f"SELECT {aggregate}({num_col}) from {dataset} where {cate_col} = '{cate_col_value}';"
+        else:
+            sql = f"SELECT {aggregate}({num_col}) from {dataset} where {cate_col} = {cate_col_value};"
         sqls.append(sql)
 
     file_name = os.path.join(output_dir, f"{dataset}_{aggregate}_{sql_num}.sql")
