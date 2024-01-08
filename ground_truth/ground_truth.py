@@ -31,23 +31,18 @@ def exact():
 
     with Progress() as progress:
         task = progress.add_task("Processing...", total=len(commands))
-        flag = 0
         for command in commands:
             cur.execute(command)
             record = float(cur.fetchone()[0])
-            results.append(record)
+            results.append([record])
 
             command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
             command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
             cur.execute(command)
             count = float(cur.fetchone()[0])
-            selectivity.append(count / total)
+            selectivity.append([count / total])
 
             progress.update(task, advance=1)
-
-            flag += 1
-            if flag == 10:
-                break
 
     output_file = os.path.join(output_dir, 'ground_truth.csv')
     with open(output_file, 'w') as f:
