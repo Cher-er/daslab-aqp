@@ -1,4 +1,4 @@
 {
   "method": "random",
-  "random_sampling_size": 0.01
+  "random_sampling_size": 10
 }

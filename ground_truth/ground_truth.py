@@ -7,6 +7,8 @@ from rich.progress import Progress
 
 
 def exact():
+    print("Preparing...")
+
     config = SamplingConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
