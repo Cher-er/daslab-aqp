@@ -1,7 +1,7 @@
 {
-  "generate_sql": true,
+  "generate_sql": false,
+  "ground_truth": true,
   "sampling": {
-    "ground_truth": false,
     "sampling": false,
     "measure": false
   },

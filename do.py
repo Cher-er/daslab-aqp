@@ -4,6 +4,7 @@ import os
 import sql.sql_generator
 
 import ground_truth.ground_truth
+
 import sampling.sampling
 import sampling.measure
 
@@ -26,8 +27,9 @@ if __name__ == '__main__':
     if args['generate_sql']:
         sql.sql_generator.gen()
 
-    if args['sampling']['ground_truth']:
+    if args['ground_truth']:
         ground_truth.ground_truth.exact()
+
     if args['sampling']['sampling']:
         sampling.sampling.aqp()
     if args['sampling']['measure']:
