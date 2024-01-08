@@ -24,7 +24,7 @@ def exact():
     results = []
     selectivity = []
     cur.execute(f"select count(*) from {pgsql_parameter['database']};")
-    total = cur.fetchone()
+    total = cur.fetchone()[0]
     for command in commands:
         cur.execute(command)
         record = cur.fetchone()[0]
