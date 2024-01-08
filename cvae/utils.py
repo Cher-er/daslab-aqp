@@ -27,9 +27,9 @@ def gen_masked_samples():
 
         sql = sql.split(";")[0]
         where = sql.split("WHERE")[1].strip()
-        if "(" in where:
-            where = where.split("(")[1]
-            where = where.split(")")[0].strip()
+        # if "(" in where:
+        #     where = where.split("(")[1]
+        #     where = where.split(")")[0].strip()
         if "AND" in where:
             predicates = where.split("AND")
             for n, predicate in enumerate(predicates):
