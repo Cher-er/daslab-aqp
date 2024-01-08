@@ -1,15 +1,13 @@
 import psycopg2
 import csv
-from config.config import SamplingConfig
+from config.config import GroundTruthConfig
 import os
 import re
 from rich.progress import Progress
 
 
 def exact():
-    print("Preparing...")
-
-    config = SamplingConfig().get_config()
+    config = GroundTruthConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
     output_dir = config['output_dir']

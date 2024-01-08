@@ -19,8 +19,6 @@ def aqp():
 
 
 def random_sampling():
-    print("Preparing...")
-
     config = SamplingConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
