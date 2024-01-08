@@ -26,6 +26,7 @@ def gen_masked_samples():
         masked_data = ["nan"] * len(columns)
 
         sql = sql.split(";")[0]
+        print(sql)
         where = sql.split("WHERE")[1].strip()
         # if "(" in where:
         #     where = where.split("(")[1]
