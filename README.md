@@ -195,11 +195,13 @@
 
 - SQL语句只支持 AND，不支持 OR
 
+- WHERE子句不能带括号（但WHERE子句中的字符串可以有括号）
+
 - 以下为一个合法SQL文件的示例：
 
   ```sql
   SELECT AVG(dep_delay) FROM flights WHERE year_data = 2001;
-  SELECT AVG(taxi_out) FROM flights WHERE (unique_carrier = 'AA' AND origin = 'DFW');
+  SELECT AVG(taxi_out) FROM flights WHERE unique_carrier = 'AA' AND origin = 'DFW';
   ```
 
 

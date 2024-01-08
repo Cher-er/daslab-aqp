@@ -25,9 +25,6 @@ def execute_avg(data_path):
         if agg.endswith(('_c', '_n')):
             agg = agg[:-2]
         where = re.split(re.compile(r'\bWHERE\b', re.IGNORECASE), sql)[1].strip()
-        if "(" in where:
-            where = where.split("(")[1]
-            where = where.split(")")[0].strip()
         if "AND" in where or "and" in where:
             predicates = re.split(re.compile(r'\bAND\b', re.IGNORECASE), where)
             for n, predicate in enumerate(predicates):
@@ -35,7 +32,6 @@ def execute_avg(data_path):
         else:
             predicates = [where]
 
-        print(predicates)
         for predicate in predicates:
             col = predicate.split("=")[0].strip()
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
