@@ -40,6 +40,10 @@
 
 7. `conda install tqdm`
 
+8. `conda install rich`
+
+   > markdown-it-py, mdurl, pygments, rich
+
 
 
 

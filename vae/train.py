@@ -5,6 +5,7 @@ from torch import optim
 import os
 from config.config import VAEConfig
 import schema.flights
+from rich.progress import Progress
 
 
 def train_vae():
@@ -89,27 +90,31 @@ def train_vae():
         bestLoss = checkpoint['bestLoss']
         loss = pickle.load(open(os.path.join(output_dir, 'loss.pkl'), 'rb'))
 
-    for epoch in tqdm(range(start_epoch + 1, epochs + 1)):
-        currentLoss = train(model, optimizer, epoch, x_train, log_interval, batch_size, org_input_dim, rejection)
-        loss.append(currentLoss)
-        if bestLoss < 0 or (currentLoss < bestLoss):
-            torch.save(model, os.path.join(output_dir, 'model.pt'))
-            bestLoss = currentLoss
+    with Progress() as progress:
+        task = progress.add_task("Training...", total=epochs)
+        progress.update(task, advance=start_epoch)
+        for epoch in range(start_epoch + 1, epochs + 1):
+            currentLoss = train(model, optimizer, epoch, x_train, log_interval, batch_size, org_input_dim, rejection)
+            loss.append(currentLoss)
+            if bestLoss < 0 or (currentLoss < bestLoss):
+                torch.save(model, os.path.join(output_dir, 'model.pt'))
+                bestLoss = currentLoss
 
-        if epoch % 10 == 0:
-            t_val = calculate_t(model, x_train,
-                                batch_size)  ## The value of T computed here is used during sample generation.
-            time_taken = time.time() - start
+            if epoch % 10 == 0:
+                t_val = calculate_t(model, x_train,
+                                    batch_size)  ## The value of T computed here is used during sample generation.
+                time_taken = time.time() - start
 
-            pickle.dump(t_val, open(os.path.join(output_dir, 't-val.pkl'), 'wb'))
-            pickle.dump(loss, open(os.path.join(output_dir, 'loss.pkl'), 'wb'))
-            pickle.dump(time_taken, open(os.path.join(output_dir, 'time_taken.pkl'), 'wb'))
-            plt.plot(loss)
-            plt.savefig(os.path.join(output_dir, 'loss.png'))
+                pickle.dump(t_val, open(os.path.join(output_dir, 't-val.pkl'), 'wb'))
+                pickle.dump(loss, open(os.path.join(output_dir, 'loss.pkl'), 'wb'))
+                pickle.dump(time_taken, open(os.path.join(output_dir, 'time_taken.pkl'), 'wb'))
+                plt.plot(loss)
+                plt.savefig(os.path.join(output_dir, 'loss.png'))
 
-            state = {'epoch': epoch, 'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
-                     'bestLoss': bestLoss}
-            torch.save(state, os.path.join(output_dir, 'model_state'))
+                state = {'epoch': epoch, 'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
+                         'bestLoss': bestLoss}
+                torch.save(state, os.path.join(output_dir, 'model_state'))
+            progress.update(task, advance=1)
 
     t_val = calculate_t(model, x_train, batch_size)  ## The value of T computed here is used during sample generation.
     print("90th Percentile value of T", t_val)
