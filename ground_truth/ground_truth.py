@@ -28,7 +28,7 @@ def exact():
     total = cur.fetchone()[0]
 
     with Progress() as progress:
-        progress.add_task("Processing...", total=len(commands), auto_refresh=True)
+        task = progress.add_task("Processing...", total=len(commands))
         for command in commands:
             cur.execute(command)
             record = cur.fetchone()[0]
@@ -39,6 +39,8 @@ def exact():
             cur.execute(command)
             count = cur.fetchone()[0]
             selectivity.append(float(count) / total)
+
+            progress.update(task, advance=1)
 
     output_file = os.path.join(output_dir, 'ground_truth.csv')
     with open(output_file, 'w') as f:
