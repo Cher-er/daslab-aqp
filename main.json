@@ -2,14 +2,14 @@
   "generate_sql": false,
   "ground_truth": false,
   "sampling": {
-    "sampling": true,
+    "sampling": false,
     "measure": false
   },
   "vae": {
     "all": false,
-    "train": false,
-    "gen": false,
-    "aqp": false,
+    "train": true,
+    "gen": true,
+    "aqp": true,
     "ground_truth": false,
     "measure": false
   },
