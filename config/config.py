@@ -28,6 +28,14 @@ class CommonConfig:
 
 
 @Singleton
+class GroundTruthConfig(CommonConfig):
+    def __init__(self):
+        CommonConfig.__init__(self)
+        self.config.update(get_config("ground_truth.json"))
+        self.config['output_dir'] = os.path.join(self.config["output_dir"], "ground_truth")
+        os.makedirs(self.config['output_dir'], exist_ok=True)
+
+@Singleton
 class SamplingConfig(CommonConfig):
     def __init__(self):
         CommonConfig.__init__(self)

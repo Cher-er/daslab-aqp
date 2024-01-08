@@ -2,6 +2,7 @@ import psycopg2
 import csv
 from config.config import SamplingConfig
 import os
+import re
 
 
 def exact():
@@ -21,17 +22,33 @@ def exact():
         commands = f.readlines()
 
     results = []
+    selectivity = []
+    cur.execute(f"select count(*) from {pgsql_parameter['database']};")
+    total = cur.fetchone()
     for command in commands:
         cur.execute(command)
         record = cur.fetchone()
         results.append(record)
+
+        command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
+        command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
+        cur.execute(command)
+        count = cur.fetchone()
+        selectivity.append(float(count) / total)
 
     output_file = os.path.join(output_dir, 'ground_truth.csv')
     with open(output_file, 'w') as f:
         writer = csv.writer(f)
         writer.writerows(results)
 
-    print(f"Ground truth has been saved in {output_file}")
+    print(f"[INFO] ground truth has been saved in {output_file}")
+
+    output_file = os.path.join(output_dir, 'selectivity.csv')
+    with open(output_file, 'w') as f:
+        writer = csv.writer(f)
+        writer.writerows(selectivity)
+
+    print(f"[INFO] selectivity has been saved in {output_file}")
 
     cur.close()
     conn.close()

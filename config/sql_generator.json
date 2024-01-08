@@ -1,4 +1,5 @@
 {
   "sql_num": 1000,
-  "aggregate": "AVG"
+  "aggregate": "AVG",
+  "predicate_num": 1
 }
