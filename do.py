@@ -21,7 +21,7 @@ import cvae.ground_truth
 import cvae.measure
 
 if __name__ == '__main__':
-    with open(os.path.join(os.getcwd(), 'config', 'main.json')) as f:
+    with open(os.path.join(os.getcwd(), 'main.json')) as f:
         args = json.load(f)
 
     if args['generate_sql']:
