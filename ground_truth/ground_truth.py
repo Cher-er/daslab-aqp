@@ -27,13 +27,13 @@ def exact():
     total = cur.fetchone()
     for command in commands:
         cur.execute(command)
-        record = cur.fetchone()
+        record = cur.fetchone()[0]
         results.append(record)
 
         command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
         command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
         cur.execute(command)
-        count = cur.fetchone()
+        count = cur.fetchone()[0]
         selectivity.append(float(count) / total)
 
     output_file = os.path.join(output_dir, 'ground_truth.csv')
