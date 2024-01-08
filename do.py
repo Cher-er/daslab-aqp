@@ -1,6 +1,8 @@
 import json
 import os
 
+import sql.sql_generator
+
 import sampling.ground_truth
 import sampling.sampling
 import sampling.measure
@@ -20,6 +22,9 @@ import cvae.measure
 if __name__ == '__main__':
     with open(os.path.join(os.getcwd(), 'config', 'main.json')) as f:
         args = json.load(f)
+
+    if args['generate_sql']:
+        sql.sql_generator.gen()
 
     if args['sampling']['ground_truth']:
         sampling.ground_truth.exact()

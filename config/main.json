@@ -1,7 +1,8 @@
 {
+  "generate_sql": true,
   "sampling": {
     "ground_truth": false,
-    "sampling": true,
+    "sampling": false,
     "measure": false
   },
   "vae": {
