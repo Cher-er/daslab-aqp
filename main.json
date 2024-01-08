@@ -15,7 +15,7 @@
   },
   "cvae": {
     "all": false,
-    "train": true,
+    "train": false,
     "gen": true,
     "aqp": true,
     "ground_truth": false,
