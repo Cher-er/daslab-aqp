@@ -3,6 +3,7 @@ import csv
 from config.config import SamplingConfig
 import os
 import re
+from rich.progress import Progress
 
 
 def exact():
@@ -25,16 +26,19 @@ def exact():
     selectivity = []
     cur.execute(f"select count(*) from {pgsql_parameter['database']};")
     total = cur.fetchone()[0]
-    for command in commands:
-        cur.execute(command)
-        record = cur.fetchone()[0]
-        results.append(record)
 
-        command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
-        command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
-        cur.execute(command)
-        count = cur.fetchone()[0]
-        selectivity.append(float(count) / total)
+    with Progress() as progress:
+        progress.add_task("Processing...", total=len(commands), auto_refresh=True)
+        for command in commands:
+            cur.execute(command)
+            record = cur.fetchone()[0]
+            results.append(record)
+
+            command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
+            command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
+            cur.execute(command)
+            count = cur.fetchone()[0]
+            selectivity.append(float(count) / total)
 
     output_file = os.path.join(output_dir, 'ground_truth.csv')
     with open(output_file, 'w') as f:
