@@ -7,9 +7,9 @@ def sMAPE(truth, aqp):
     return result.mean()
 
 
-def is_convertible_to_string(value):
+def is_convertible_to_int(value):
     try:
-        str(value)
+        int(value)
         return True
     except:
         return False
