@@ -22,8 +22,7 @@ def execute_avg(data_path):
         agg = re.split(re.compile(r'\bSELECT\b', re.IGNORECASE), sql)[1]
         agg = re.split(re.compile(r'\bFROM\b', re.IGNORECASE), agg)[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
-        if agg.endswith(('_c', '_n')):
-            agg = agg[:-2]
+
         where = re.split(re.compile(r'\bWHERE\b', re.IGNORECASE), sql)[1].strip()
         if "AND" in where or "and" in where:
             predicates = re.split(re.compile(r'\bAND\b', re.IGNORECASE), where)
@@ -37,8 +36,6 @@ def execute_avg(data_path):
             pre = predicate.split("=")[1].strip().strip("'").strip("\"")
             if pre.isdigit():
                 pre = int(pre)
-            if col.endswith(('_c', '_n')):
-                col = col[:-2]
             data_c = data_c[data_c[col] == pre]
 
         results.append(data_c[agg].mean())
