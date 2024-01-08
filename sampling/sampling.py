@@ -4,6 +4,7 @@ import pandas as pd
 import re
 import os
 from config.config import SamplingConfig
+from rich.progress import Progress
 
 
 def aqp():
@@ -18,6 +19,8 @@ def aqp():
 
 
 def random_sampling():
+    print("Preparing...")
+
     config = SamplingConfig().get_config()
     pgsql_parameter = config['pgsql']
     sql_file = config['sql_file']
@@ -46,61 +49,65 @@ def random_sampling():
             return False
 
     results = []
-    for command in commands:
-        pattern_count = re.compile(r'^select\s+count', re.IGNORECASE)
-        pattern_avg = re.compile(r'^select\s+avg', re.IGNORECASE)
-        pattern_sum = re.compile(r'^select\s+sum', re.IGNORECASE)
-        if pattern_count.match(command):
-            agg = "count"
-        elif pattern_avg.match(command):
-            agg = "avg"
-        elif pattern_sum.match(command):
-            agg = "sum"
-        else:
-            agg = "unknown"
-        sample_df = pd.DataFrame(sample, columns=columns)
-        command = command.split(';')[0]
-        pattern_1 = re.compile(r'\bWHERE\b', flags=re.IGNORECASE)
-        pattern_2 = re.compile(r'\bAND\b', flags=re.IGNORECASE)
-        predicates = re.split(pattern_2, re.split(pattern_1, command)[1])
-        for predicate in predicates:
-            if ">=" in predicate:
-                attr = predicate.split(">=")[0].strip()
-                val = predicate.split(">=")[1].strip()
-                sample_df = sample_df[sample_df[attr] >= int(val)]
-            elif "<=" in predicate:
-                attr = predicate.split("<=")[0].strip()
-                val = predicate.split("<=")[1].strip()
-                sample_df = sample_df[sample_df[attr] <= int(val)]
-            elif ">" in predicate:
-                attr = predicate.split(">")[0].strip()
-                val = predicate.split(">")[1].strip()
-                sample_df = sample_df[sample_df[attr] > int(val)]
-            elif "<" in predicate:
-                attr = predicate.split("<")[0].strip()
-                val = predicate.split("<")[1].strip()
-                sample_df = sample_df[sample_df[attr] < int(val)]
-            elif "=" in predicate:
-                attr = predicate.split("=")[0].strip()
-                val = predicate.split("=")[1].strip()
-                if is_convertible_to_int(val):
-                    val = int(val)
-                else:
-                    val = val.replace("'", "")
-                    val = val.replace('"', "")
-                sample_df = sample_df[sample_df[attr] == val]
-        if agg == "count":
-            results.append(sample_df.shape[0] * (100 / sample_size))
-        elif agg == 'avg':
-            match = re.search(r'AVG\(([^)]+)\)', command, re.IGNORECASE)
-            if match:
-                target = match.group(1)
-                results.append(float(sample_df[target].mean()))
-        elif agg == 'sum':
-            match = re.search(r'SUM\(([^)]+)\)', command, re.IGNORECASE)
-            if match:
-                target = match.group(1)
-                results.append(float(sample_df[target].sum()) * (100 / sample_size))
+
+    with Progress() as progress:
+        task = progress.add_task("Processing...", total=len(commands))
+        for command in commands:
+            pattern_count = re.compile(r'^select\s+count', re.IGNORECASE)
+            pattern_avg = re.compile(r'^select\s+avg', re.IGNORECASE)
+            pattern_sum = re.compile(r'^select\s+sum', re.IGNORECASE)
+            if pattern_count.match(command):
+                agg = "count"
+            elif pattern_avg.match(command):
+                agg = "avg"
+            elif pattern_sum.match(command):
+                agg = "sum"
+            else:
+                agg = "unknown"
+            sample_df = pd.DataFrame(sample, columns=columns)
+            command = command.split(';')[0]
+            pattern_1 = re.compile(r'\bWHERE\b', flags=re.IGNORECASE)
+            pattern_2 = re.compile(r'\bAND\b', flags=re.IGNORECASE)
+            predicates = re.split(pattern_2, re.split(pattern_1, command)[1])
+            for predicate in predicates:
+                if ">=" in predicate:
+                    attr = predicate.split(">=")[0].strip()
+                    val = predicate.split(">=")[1].strip()
+                    sample_df = sample_df[sample_df[attr] >= int(val)]
+                elif "<=" in predicate:
+                    attr = predicate.split("<=")[0].strip()
+                    val = predicate.split("<=")[1].strip()
+                    sample_df = sample_df[sample_df[attr] <= int(val)]
+                elif ">" in predicate:
+                    attr = predicate.split(">")[0].strip()
+                    val = predicate.split(">")[1].strip()
+                    sample_df = sample_df[sample_df[attr] > int(val)]
+                elif "<" in predicate:
+                    attr = predicate.split("<")[0].strip()
+                    val = predicate.split("<")[1].strip()
+                    sample_df = sample_df[sample_df[attr] < int(val)]
+                elif "=" in predicate:
+                    attr = predicate.split("=")[0].strip()
+                    val = predicate.split("=")[1].strip()
+                    if is_convertible_to_int(val):
+                        val = int(val)
+                    else:
+                        val = val.replace("'", "")
+                        val = val.replace('"', "")
+                    sample_df = sample_df[sample_df[attr] == val]
+            if agg == "count":
+                results.append(sample_df.shape[0] * (100 / sample_size))
+            elif agg == 'avg':
+                match = re.search(r'AVG\(([^)]+)\)', command, re.IGNORECASE)
+                if match:
+                    target = match.group(1)
+                    results.append(float(sample_df[target].mean()))
+            elif agg == 'sum':
+                match = re.search(r'SUM\(([^)]+)\)', command, re.IGNORECASE)
+                if match:
+                    target = match.group(1)
+                    results.append(float(sample_df[target].sum()) * (100 / sample_size))
+            progress.update(task, advance=1)
 
     output_file = os.path.join(output_dir, f'random_sampling_{sample_size}.csv')
     with open(output_file, 'w') as f:
@@ -108,7 +115,7 @@ def random_sampling():
         for result in results:
             writer.writerow([result])
 
-    print(f"Random sampling of {sample_size} results has been saved in {output_file}")
+    print(f"[INFO] Random sampling of {sample_size} results has been saved in {output_file}")
 
     cur.close()
     conn.close()

@@ -35,12 +35,14 @@ def exact():
             cur.execute(command)
             record = cur.fetchone()[0]
             results.append(record)
+            print(results)
 
             command = re.sub(r'\bAVG\b', 'COUNT', command, flags=re.IGNORECASE)
             command = re.sub(r'\bSUM\b', 'COUNT', command, flags=re.IGNORECASE)
             cur.execute(command)
             count = cur.fetchone()[0]
             selectivity.append(float(count) / total)
+            print(selectivity)
 
             progress.update(task, advance=1)
 
