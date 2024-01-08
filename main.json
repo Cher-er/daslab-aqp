@@ -9,15 +9,15 @@
     "all": false,
     "train": false,
     "gen": false,
-    "aqp": true,
+    "aqp": false,
     "ground_truth": false,
     "measure": false
   },
   "cvae": {
     "all": false,
-    "train": false,
-    "gen": false,
-    "aqp": false,
+    "train": true,
+    "gen": true,
+    "aqp": true,
     "ground_truth": false,
     "measure": false
   }

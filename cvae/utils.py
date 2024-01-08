@@ -69,9 +69,9 @@ def execute_avg(data_path, sep):
         agg = sql.split("SELECT")[1].split("FROM")[0].strip()
         agg = agg.split("(")[1].split(")")[0].strip()
         where = sql.split("WHERE")[1].strip()
-        if "(" in where:
-            where = where.split("(")[1]
-            where = where.split(")")[0].strip()
+        # if "(" in where:
+        #     where = where.split("(")[1]
+        #     where = where.split(")")[0].strip()
         if "AND" in where:
             predicates = where.split("AND")
             for n, predicate in enumerate(predicates):
